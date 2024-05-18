@@ -38,7 +38,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
   productform.addEventListener("submit",async(e)=>{
     // evento
     e.preventDefault();
-    await addDoc(collection(db,"producto"),{
+    await addDoc(collection(db,"reservas"),{
         nombre: productform.nombre.value
     });
     productform.reset();
