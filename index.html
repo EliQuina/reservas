@@ -6,7 +6,6 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="form-reserva">
         <h1>Gestión de Reservas</h1>
         <form id="form-reserva">
             <label for="nombre">Nombre:</label>
@@ -38,58 +37,6 @@
             <button type="button" class="button" id="eliminar-btn">Eliminar</button>
             <button type="button" class="button" id="actualizar-btn">Actualizar</button>
         </form>
-    </div>
-    <div class="sidebar">
-        <h2>Base de Datos</h2>
-        <p>Los datos de la base de datos se mostrarían aquí en tiempo real.</p>
-    </div>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-        }
-        
-        .container {
-            width: 50%;
-            padding: 20px;
-        }
-        
-        .sidebar {
-            width: 50%;
-            padding: 20px;
-            border-left: 1px solid #ccc;
-        }
-        
-        form label {
-            display: block;
-            margin-top: 10px;
-        }
-        
-        form input, form select {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            margin-top: 10px;
-            background-color: #007bff;
-            color: #fff;
-            text-align: center;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        
-        .button:hover {
-            background-color: #0056b3;
-        }
-    </style>
 <script type="module">
  // Import the functions you need from the SDKs you need
  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -117,9 +64,9 @@
     // evento
     e.preventDefault();
     await addDoc(collection(db,"reservas"),{
-        nombre: productform.nombre.value,
-        precio: productform.precio.value,
-        codigo: productform.codigo.value
+        nombre: reserva.nombre.value,
+        fecha: reserva.precio.value,
+        hora: reserva.codigo.value
     });
     productform.reset();
   });
