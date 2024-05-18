@@ -76,41 +76,6 @@
     });
     productform.reset();
   });
-   // Obtener datos de la base de datos y mostrar en la tabla
-   const tablaReservas = document.getElementById("tabla-reservas");
-
-// Función para mostrar los datos en la tabla
-function mostrarDatosEnTabla(datos) {
-    const tbody = tablaReservas.querySelector("tbody");
-    tbody.innerHTML = ""; // Limpiar la tabla antes de agregar nuevos datos
-
-    datos.forEach(reserva => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td>${reserva.id}</td>
-            <td>${reserva.nombre}</td>
-            <td>${reserva.fecha_hora}</td>
-            <td>${reserva.num_per}</td>
-            <td>${reserva.telefono}</td>
-            <td>${reserva.email}</td>
-            <td>${reserva.estado}</td>
-        `;
-        tbody.appendChild(tr);
-    });
-}
-// Obtener las reservas de la base de datos y mostrar en la tabla
-const reservasRef = collection(db, "reservas");
-getDocs(reservasRef)
-    .then((querySnapshot) => {
-        const reservas = [];
-        querySnapshot.forEach((doc) => {
-            reservas.push(doc.data());
-        });
-        mostrarDatosEnTabla(reservas);
-    })
-    .catch((error) => {
-        console.error("Error al obtener las reservas: ", error);
-    });
   </script>
       <style>
         body {
