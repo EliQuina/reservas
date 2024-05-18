@@ -6,14 +6,43 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>GESTION DE PRODUCTOS</h1>
-    <hr>
-    <form id="form-product">
-        <input type="text" id="nombre" placeholder="Ingrese el nombre del producto">
-        <input type="text" id="precio" placeholder="Ingrese el precio del producto">
-        <input type="text" id="codigo" placeholder="Ingrese el codigo del producto">
-        <button type="submit">Agregar producto</button>
-    </form>    
+    <div class="container">
+        <h1>Gestión de Reservas</h1>
+        <form id="reserva-form">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" name="fecha" required>
+            
+            <label for="hora">Hora:</label>
+            <input type="time" id="hora" name="hora" required>
+            
+            <label for="numero_personas">Número de Personas:</label>
+            <input type="number" id="numero_personas" name="numero_personas" required>
+            
+            <label for="telefono">Teléfono:</label>
+            <input type="tel" id="telefono" name="telefono" required>
+            
+            <label for="correo_electronico">Correo Electrónico:</label>
+            <input type="email" id="correo_electronico" name="correo_electronico" required>
+            
+            <label for="estado">Estado:</label>
+            <select id="estado" name="estado" required>
+                <option value="pendiente">Pendiente</option>
+                <option value="confirmada">Confirmada</option>
+                <option value="cancelada">Cancelada</option>
+            </select>
+            
+            <button type="submit" class="button" id="guardar-btn">Guardar</button>
+            <button type="button" class="button" id="eliminar-btn">Eliminar</button>
+            <button type="button" class="button" id="actualizar-btn">Actualizar</button>
+        </form>
+    </div>
+    <div class="sidebar">
+        <h2>Base de Datos</h2>
+        <p>Los datos de la base de datos se mostrarían aquí en tiempo real.</p>
+    </div>
 <script type="module">
  // Import the functions you need from the SDKs you need
  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -29,10 +58,10 @@
     messagingSenderId: "342922590938",
     appId: "1:342922590938:web:b86f4304821e21f3a983e3"
   };
-
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   // constancia de la base de datos
+
   const db=getFirestore(app);
 
   const productform = document.getElementById("form-product");
