@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="container">
+    <div class="form-reserva">
         <h1>Gestión de Reservas</h1>
         <form id="reserva-form">
             <label for="nombre">Nombre:</label>
@@ -112,7 +112,7 @@
 
   const db=getFirestore(app);
 
-  const productform = document.getElementById("form-product");
+  const productform = document.getElementById("form-reserva");
   productform.addEventListener("submit",async(e)=>{
     // evento
     e.preventDefault();
