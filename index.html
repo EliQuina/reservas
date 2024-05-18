@@ -1,51 +1,24 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Gestión de Reservas</h1>
-        <form id="form-reserva">
-            <label for="id">Id:</label>
-            <input type="number" id="nombre" name="nombre" required>
-            
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required>
-            
-            <label for="fecha_hora">Fecha y hora:</label>
-            <input type="datetime" id="fecha" name="fecha" required>
-            
-            <label for="num_per">Número de Personas:</label>
-            <input type="number" id="numero_personas" name="numero_personas" required>
-            
-            <label for="telefono">Teléfono:</label>
-            <input type="tel" id="telefono" name="telefono" required>
-            
-            <label for="email">Correo Electrónico:</label>
-            <input type="email" id="correo_electronico" name="correo_electronico" required>
-            
-            <label for="estado">Estado:</label>
-            <select id="estado" name="estado" required>
-                <option value="pendiente">Pendiente</option>
-                <option value="confirmada">Confirmada</option>
-                <option value="cancelada">Cancelada</option>
-            </select>
-            
-            <button type="submit" class="button" id="guardar-btn">Guardar</button>
-            <button type="button" class="button" id="eliminar-btn">Eliminar</button>
-            <button type="button" class="button" id="actualizar-btn">Actualizar</button>
-        </form>
-    </div>
+    <h1>GESTION DE RESERVAS</h1>
+    <hr>
+    <form id="form-product">
+        <input type="text" id="nombre" placeholder="Ingrese el nombre del producto">
+        <button type="submit">Agregar producto</button>
+    </form>    
 <script type="module">
- // Import the functions you need from the SDKs you need
- import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
- import {getFirestore,collection,addDoc,onSnapshot,deleteDoc,doc} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import {getFirestore,collection,addDoc,onSnapshot,deleteDoc,doc} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
-
+  
   // Your web app's Firebase configuration
   const firebaseConfig = {
     apiKey: "AIzaSyAVMPwYyzfomxTdROK_jYhJ72QBT0cy2zw",
@@ -55,74 +28,22 @@
     messagingSenderId: "342922590938",
     appId: "1:342922590938:web:b86f4304821e21f3a983e3"
   };
+  
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   // constancia de la base de datos
-
   const db=getFirestore(app);
 
-  const reserva= document.getElementById("form-reserva");
-  reserva.addEventListener("submit",async(e)=>{
+  const productform = document.getElementById("form-product");
+  productform.addEventListener("submit",async(e)=>{
     // evento
     e.preventDefault();
-    await addDoc(collection(db,"reservas"),{
-        id: reserva.id.value,
-        nombre: reserva.nombre.value,
-        fecha_hora: reserva.fecha_hora.value,
-        num_per: reserva.num_per.value,
-        telefono: reserva.telefono.value,
-        email: reserva.email.value,
-        estado: reserva.estado.value
+    await addDoc(collection(db,"producto"),{
+        nombre: productform.nombre.value
     });
-    reserva.reset();
+    productform.reset();
   });
   </script>
-      <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-        }
-        
-        .container {
-            width: 50%;
-            padding: 20px;
-        }
-        
-        .sidebar {
-            width: 50%;
-            padding: 20px;
-            border-left: 1px solid #ccc;
-        }
-        
-        form label {
-            display: block;
-            margin-top: 10px;
-        }
-        
-        form input, form select {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            margin-top: 10px;
-            background-color: #007bff;
-            color: #fff;
-            text-align: center;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        
-        .button:hover {
-            background-color: #0056b3;
-        }
-    </style>
   </body>
+
 </html>
