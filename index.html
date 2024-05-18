@@ -9,24 +9,40 @@
     <h1>GESTION DE RESERVAS</h1>
     <hr>
     <form id="form-product">
-        <label style="border-radius: 10px;" type="text" id="nombres" placeholder="Ingrese el nombre del producto">Nombres: </label>
+        <label style="border-radius: 10px;" type="text" id="nombres" placeholder="Ingrese el nombre del producto"><b>Nombres: </b></label>
         <br>
-        <input style="border-radius: 10px;" type="text" id="apellidos" placeholder="Ingrese el nombre del producto">
+        <label style="border-radius: 10px;" type="text" id="apellidos" placeholder="Ingrese el nombre del producto"><b>Apellidos: </b></label>
         <br>
-        <input style="border-radius: 10px;" type="text" id="email" placeholder="Ingrese el nombre del producto">
+        <label style="border-radius: 10px;" type="text" id="email" placeholder="Ingrese el nombre del producto"><b>Email</b></label>
         <br>
-        <input style="border-radius: 10px;" type="text" id="telefono" placeholder="Ingrese el nombre del producto">
+        <b>Teléfono</b>
+        <input style="border-radius: 10px;" type="number" id="telefono" placeholder="Ingrese el nombre del producto">
         <br>
-        <select style="border-radius: 10px;" type="text" id="tipo">
-            <option value="pendiente">Pendiente</option>
-            <option value="confirmada">Confirmada</option>
-            <option value="cancelada">Cancelada</option>
+        <select style="border-radius: 10px;" type="text" id="tipo" aria-placeholder="--SELECCIONE-">
+            <option value="Individual">Pendiente</option>
+            <option value="Conyugal">Confirmada</option>
+            <option value="Familiar">Cancelada</option>
         </select>
         <br>
-        <input style="border-radius: 10px;" type="text" id="tipo" placeholder="Ingrese el nombre del producto">
-        <input style="border-radius: 10px;" type="text" id="tipo" placeholder="Ingrese el nombre del producto">
-        <input style="border-radius: 10px;" type="text" id="tipo" placeholder="Ingrese el nombre del producto">
-        <input style="border-radius: 10px;" type="text" id="tipo" placeholder="Ingrese el nombre del producto">
+        <b>Fecha de Entrada</b>
+        <br>
+        <input style="border-radius: 10px;" type="datetime" id="fecha_hora_en" ">
+        <br>
+        <b>Fecha de Entrada</b>
+        <br>
+        <input style="border-radius: 10px;" type="datetime" id="fecha_hora_sal" ">
+        <br>
+        <select style="border-radius: 10px;" type="text" id="estado" aria-placeholder="--SELECCIONAR">
+            <option value="Pendiente">Pendiente</option>
+            <option value="Confirmada">Confirmada</option>
+            <option value="Cancelada">Cancelada</option>
+        </select>
+        <br>
+        <input style="border-radius: 10px;" type="number" id="num_ha" placeholder="Ingrese el nombre del producto">
+        <br>
+        <input style="border-radius: 10px;" type="number" id="precio" placeholder="Ingrese el nombre del producto">
+        <br>
+        <textarea name="comentario" id="comentarios">Comentarios</textarea>
 
         <button type="submit">Agregar Reserva</button>
     </form>    
@@ -57,7 +73,17 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
     // evento
     e.preventDefault();
     await addDoc(collection(db,"reservas"),{
-        nombre: productform.nombre.value
+        nombres: productform.nombres.value,
+        apellidos: productform.apellidos.value,
+        email: productform.email.value,
+        telefono: productform.telefono.value,
+        tipo: productform.tipo.value,
+        fecha_hora_en: productform.fecha_hora_en.value,
+        fecha_hora_sal: productform.fecha_hora_sal.value,
+        estado: productform.estado.value,
+        num_ha: productform.num_ha.value,
+        precio: productform.precio.value,
+        comentarios: productform.comentarios.value
     });
     productform.reset();
   });
