@@ -9,19 +9,22 @@
     <div class="container">
         <h1>Gestión de Reservas</h1>
         <form id="form-reserva">
+            <label for="id">Id:</label>
+            <input type="number" id="nombre" name="nombre" required>
+            
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required>
             
-            <label for="fecha">Fecha y hora:</label>
+            <label for="fecha_hora">Fecha y hora:</label>
             <input type="datetime" id="fecha" name="fecha" required>
             
-            <label for="numero_personas">Número de Personas:</label>
+            <label for="num_per">Número de Personas:</label>
             <input type="number" id="numero_personas" name="numero_personas" required>
             
             <label for="telefono">Teléfono:</label>
             <input type="tel" id="telefono" name="telefono" required>
             
-            <label for="correo_electronico">Correo Electrónico:</label>
+            <label for="email">Correo Electrónico:</label>
             <input type="email" id="correo_electronico" name="correo_electronico" required>
             
             <label for="estado">Estado:</label>
@@ -63,9 +66,13 @@
     // evento
     e.preventDefault();
     await addDoc(collection(db,"reservas"),{
+        id: reserva.id.value,
         nombre: reserva.nombre.value,
-        fecha: reserva.precio.value,
-        hora: reserva.codigo.value
+        fecha_hora: reserva.fecha_hora.value,
+        num_per: reserva.num_per.value,
+        telefono: reserva.telefono.value,
+        email: reserva.email.value,
+        estado: reserva.estado.value
     });
     productform.reset();
   });
@@ -80,9 +87,13 @@ function mostrarDatosEnTabla(datos) {
     datos.forEach(reserva => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
+            <td>${reserva.id}</td>
             <td>${reserva.nombre}</td>
-            <td>${reserva.precio}</td>
-            <td>${reserva.codigo}</td>
+            <td>${reserva.fecha_hora}</td>
+            <td>${reserva.num_per}</td>
+            <td>${reserva.telefono}</td>
+            <td>${reserva.email}</td>
+            <td>${reserva.estado}</td>
         `;
         tbody.appendChild(tr);
     });
