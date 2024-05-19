@@ -124,25 +124,152 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
   // constancia de la base de datos
   const db=getFirestore(app);
 
-  const productform = document.getElementById("form-product");
-  productform.addEventListener("submit",async(e)=>{
-    // evento
-    e.preventDefault();
-    await addDoc(collection(db,"reservas"),{
-        nombres: productform.nombres.value,
-        apellidos: productform.apellidos.value,
-        email: productform.email.value,
-        telefono: productform.telefono.value,
-        tipo: productform.tipo.value,
-        fecha_hora_en: productform.fecha_hora_en.value,
-        fecha_hora_sal: productform.fecha_hora_sal.value,
-        estado: productform.estado.value,
-        num_ha: productform.num_ha.value,
-        precio: productform.precio.value,
-        comentarios: productform.comentarios.value
-    });
-    productform.reset();
-  });
+  const empleadform = document.getElementById("form-emplead");
+        const buscarform = document.getElementById("form-buscar");
+        const resultados = document.getElementById("resultados");
+        const empleadosTableBody = document.querySelector("#empleados-table tbody");
+
+        // Function to render employees in the table
+        const renderEmpleados = (querySnapshot) => {
+            empleadosTableBody.innerHTML = '';
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${doc.id}</td>
+                    <td>${data.nombre}</td>
+                    <td>${data.apellido}</td>
+                    <td>${data.cargo}</td>
+                    <td>${data.departamento}</td>
+                    <td>${data.contrato}</td>
+                    <td>${data.salario}</td>
+                    <td>${data.correo}</td>
+                    <td>${data.telefono}</td>
+                    <td>${data.direccion}</td>
+                    <td>${data.edad}</td>
+                    <td>
+                        <button onclick="eliminarEmpleado('${doc.id}')">Eliminar</button>
+                        <button onclick="cargarEmpleado('${doc.id}')">Actualizar</button>
+                    </td>
+                `;
+                empleadosTableBody.appendChild(row);
+            });
+        };
+
+        // Fetch all employees and render them in the table
+        const fetchEmpleados = async () => {
+            const querySnapshot = await getDocs(collection(db, "empleados"));
+            renderEmpleados(querySnapshot);
+        };
+
+        fetchEmpleados();
+
+        empleadform.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            await addDoc(collection(db, "empleados"), {
+                nombre: empleadform.nombre.value,
+                apellido: empleadform.apellido.value,
+                cargo: empleadform.cargo.value,
+                departamento: empleadform.departamento.value,
+                contrato: empleadform.contrato.value,
+                salario: empleadform.salario.value,
+                correo: empleadform.correo.value,
+                telefono: empleadform.telefono.value,
+                direccion: empleadform.direccion.value,
+                edad: empleadform.edad.value
+            });
+            empleadform.reset();
+            fetchEmpleados();
+        });
+
+        buscarform.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const nombre = buscarform.buscarNombre.value;
+            const q = query(collection(db, "empleados"), where("nombre", "==", nombre));
+            const querySnapshot = await getDocs(q);
+
+            if (!querySnapshot.empty) {
+                const doc = querySnapshot.docs[0];
+                const data = doc.data();
+                empleadform.nombre.value = data.nombre;
+                empleadform.apellido.value = data.apellido;
+                empleadform.cargo.value = data.cargo;
+                empleadform.departamento.value = data.departamento;
+                empleadform.contrato.value = data.contrato;
+                empleadform.salario.value = data.salario;
+                empleadform.correo.value = data.correo;
+                empleadform.telefono.value = data.telefono;
+                empleadform.direccion.value = data.direccion;
+                empleadform.edad.value = data.edad;
+                empleadform.dataset.id = doc.id;
+            } else {
+                alert("Empleado no encontrado");
+            }
+        });
+
+        window.eliminarEmpleado = async (id) => {
+            await deleteDoc(doc(db, "empleados", id));
+            alert("Empleado eliminado");
+            fetchEmpleados();
+        };
+
+        window.cargarEmpleado = (id) => {
+            const row = document.querySelector(button[onclick="cargarEmpleado('${id}')"]).closest("tr");
+            const cells = row.getElementsByTagName("td");
+            empleadform.nombre.value = cells[1].textContent;
+            empleadform.apellido.value = cells[2].textContent;
+            empleadform.cargo.value = cells[3].textContent;
+            empleadform.departamento.value = cells[4].textContent;
+            empleadform.contrato.value = cells[5].textContent;
+            empleadform.salario.value = cells[6].textContent;
+            empleadform.correo.value = cells[7].textContent;
+            empleadform.telefono.value = cells[8].textContent;
+            empleadform.direccion.value = cells[9].textContent;
+            empleadform.edad.value = cells[10].textContent;
+            empleadform.dataset.id = id;
+        };
+
+        empleadform.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const id = empleadform.dataset.id;
+            if (id) {
+                await updateDoc(doc(db, "empleados", id), {
+                    nombre: empleadform.nombre.value,
+                    apellido: empleadform.apellido.value,
+                    cargo: empleadform.cargo.value,
+                    departamento: empleadform.departamento.value,
+                    contrato: empleadform.contrato.value,
+                    salario: empleadform.salario.value,
+                    correo: empleadform.correo.value,
+                    telefono: empleadform.telefono.value,
+                    direccion: empleadform.direccion.value,
+                    edad: empleadform.edad.value
+                });
+                alert("Empleado actualizado");
+                empleadform.removeAttribute("data-id");
+            } else {
+                await addDoc(collection(db, "empleados"), {
+                    nombre: empleadform.nombre.value,
+                    apellido: empleadform.apellido.value,
+                    cargo: empleadform.cargo.value,
+                    departamento: empleadform.departamento.value,
+                    contrato: empleadform.contrato.value,
+                    salario: empleadform.salario.value,
+                    correo: empleadform.correo.value,
+                    telefono: empleadform.telefono.value,
+                    direccion: empleadform.direccion.value,
+                    edad: empleadform.edad.value
+                });
+                alert("Empleado agregado");
+            }
+            empleadform.reset();
+            fetchEmpleados();
+        });
+
+        // Listen for real-time updates
+        onSnapshot(collection(db, "empleados"), (snapshot) => {
+            renderEmpleados(snapshot);
+        });
   </script>
   </body>
 
