@@ -171,19 +171,19 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
                 <td>
                     <button onclick="deleteReserva('${doc.id}')" class="btn btn-danger">Eliminar</button>
                     <button onclick="editReserva('${doc.id}', '${data.nombres}', '${data.apellidos}', '${data.email}', '${data.telefono}', '${data.tipo}', '${data.fecha_hora_en}', '${data.fecha_hora_sal}', '${data.estado}', '${data.num_ha}', '${data.precio}', '${data.comentarios}')" class="btn btn-primary">Editar</button>
-                    <button onclick="verRegistro('${doc.id}', '${data.nombres}', '${data.apellidos}', '${data.email}', '${data.telefono}', '${data.tipo}', '${data.fecha_hora_en}', '${data.fecha_hora_sal}', '${data.estado}', '${data.num_ha}', '${data.precio}', '${data.comentarios}')" class="btn btn-info">Ver</button>
-        
                 </td>
             `;
             tableBody.appendChild(row);
         });
-    });
-    async function deleteReserva(id) {
-    const confirmacion = confirm("¿Estás seguro de que deseas eliminar este registro?");
-    if (confirmacion) {
+        async function deleteReserva(id) {
+    try {
         await deleteDoc(doc(db, "reservas", id));
+        console.log("Registro eliminado exitosamente.");
+    } catch (error) {
+        console.error("Error al eliminar el registro:", error);
     }
 }
+    });
   </script>
   </body>
 
