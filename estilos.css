@@ -1,26 +1,7 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 
 body {
     background-color: bisque;
 }
-
-.div-titulo {
-    width: 100%;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.div-titulo h1 {
-    font-weight: 300;
-}
-
 .contenedor {
     width: 100%;
     height: calc(100vh - 100px);
