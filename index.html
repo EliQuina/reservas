@@ -102,8 +102,7 @@
                 </tr>
             </thead>
             <tbody></tbody>
-            <button onclick="verRegistro('${doc.id}', '${data.nombres}', '${data.apellidos}', '${data.email}', '${data.telefono}', '${data.tipo}', '${data.fecha_hora_en}', '${data.fecha_hora_sal}', '${data.estado}', '${data.num_ha}', '${data.precio}', '${data.comentarios}')" class="btn btn-info">Ver</button>
-        </table>
+            </table>
     </div>
         </div>
     </div>   
@@ -172,12 +171,11 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
                 <td>
                     <button onclick="deleteReserva('${doc.id}')" class="btn btn-danger">Eliminar</button>
                     <button onclick="editReserva('${doc.id}', '${data.nombres}', '${data.apellidos}', '${data.email}', '${data.telefono}', '${data.tipo}', '${data.fecha_hora_en}', '${data.fecha_hora_sal}', '${data.estado}', '${data.num_ha}', '${data.precio}', '${data.comentarios}')" class="btn btn-primary">Editar</button>
+                    <button onclick="verRegistro('${doc.id}', '${data.nombres}', '${data.apellidos}', '${data.email}', '${data.telefono}', '${data.tipo}', '${data.fecha_hora_en}', '${data.fecha_hora_sal}', '${data.estado}', '${data.num_ha}', '${data.precio}', '${data.comentarios}')" class="btn btn-info">Ver</button>
+        
                 </td>
             `;
-            tableBody.appendChild(row);
-        });
-    });
-    function verRegistro(id, nombres, apellidos, email, telefono, tipo, fecha_hora_en, fecha_hora_sal, estado, num_ha, precio, comentarios) {
+            function verRegistro(id, nombres, apellidos, email, telefono, tipo, fecha_hora_en, fecha_hora_sal, estado, num_ha, precio, comentarios) {
     // Llenar el formulario con los datos del registro seleccionado
     document.getElementById("id").value = id;
     document.getElementById("nombres").value = nombres;
@@ -192,6 +190,9 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
     document.getElementById("precio").value = precio;
     document.getElementById("comentarios").value = comentarios;
 }
+            tableBody.appendChild(row);
+        });
+    });
   </script>
   </body>
 
