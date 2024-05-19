@@ -163,7 +163,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
                 <td>${data.comentarios}</td>
                 <td>
                     <button onclick="deleteReserva('${doc.id}')" class="btn btn-danger">Eliminar</button>
-                    <button onclick="editReserva('${doc.id}')" class="btn btn-primary">Editar</button>
+                    <button onclick="editReserva('${doc.id}', '${data.nombres}', '${data.apellidos}', '${data.email}', '${data.telefono}', '${data.tipo}', '${data.fecha_hora_en}', '${data.fecha_hora_sal}', '${data.estado}', '${data.num_ha}', '${data.precio}', '${data.comentarios}')" class="btn btn-primary">Editar</button>
                 </td>
             `;
             tableBody.appendChild(row);
@@ -175,10 +175,35 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
         await deleteDoc(doc(db, "reservas", id));
     }
 
-    // Función para editar una reserva (puedes implementarla según tus necesidades)
-    function editReserva(id) {
-        // Aquí puedes implementar la lógica para editar una reserva
-        // Por ejemplo, puedes abrir un modal con los datos del registro y permitir al usuario editarlos.
+    // Función para editar una reserva
+    async function editReserva(id, nombres, apellidos, email, telefono, tipo, fecha_hora_en, fecha_hora_sal, estado, num_ha, precio, comentarios) {
+        // Obtener los datos actualizados del usuario
+        const updatedNombres = prompt("Nombres:", nombres);
+        const updatedApellidos = prompt("Apellidos:", apellidos);
+        const updatedEmail = prompt("Email:", email);
+        const updatedTelefono = prompt("Teléfono:", telefono);
+        const updatedTipo = prompt("Tipo de Habitación:", tipo);
+        const updatedFechaHoraEn = prompt("Fecha de Entrada:", fecha_hora_en);
+        const updatedFechaHoraSal = prompt("Fecha de Salida:", fecha_hora_sal);
+        const updatedEstado = prompt("Estado:", estado);
+        const updatedNumHa = prompt("Número de Habitación:", num_ha);
+        const updatedPrecio = prompt("Precio:", precio);
+        const updatedComentarios = prompt("Comentarios:", comentarios);
+
+        // Actualizar los datos en Firestore
+        await updateDoc(doc(db, "reservas", id), {
+            nombres: updatedNombres,
+            apellidos: updatedApellidos,
+            email: updatedEmail,
+            telefono: updatedTelefono,
+            tipo: updatedTipo,
+            fecha_hora_en: updatedFechaHoraEn,
+            fecha_hora_sal: updatedFechaHoraSal,
+            estado: updatedEstado,
+            num_ha: updatedNumHa,
+            precio: updatedPrecio,
+            comentarios: updatedComentarios
+        });
     }
   </script>
   </body>
