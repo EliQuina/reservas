@@ -175,24 +175,15 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
         
                 </td>
             `;
-            function verRegistro(id, nombres, apellidos, email, telefono, tipo, fecha_hora_en, fecha_hora_sal, estado, num_ha, precio, comentarios) {
-    // Llenar el formulario con los datos del registro seleccionado
-    document.getElementById("id").value = id;
-    document.getElementById("nombres").value = nombres;
-    document.getElementById("apellidos").value = apellidos;
-    document.getElementById("email").value = email;
-    document.getElementById("telefono").value = telefono;
-    document.getElementById("tipo").value = tipo;
-    document.getElementById("fecha_hora_en").value = fecha_hora_en;
-    document.getElementById("fecha_hora_sal").value = fecha_hora_sal;
-    document.getElementById("estado").value = estado;
-    document.getElementById("num_ha").value = num_ha;
-    document.getElementById("precio").value = precio;
-    document.getElementById("comentarios").value = comentarios;
-}
             tableBody.appendChild(row);
         });
     });
+    async function deleteReserva(id) {
+    const confirmacion = confirm("¿Estás seguro de que deseas eliminar este registro?");
+    if (confirmacion) {
+        await deleteDoc(doc(db, "reservas", id));
+    }
+}
   </script>
   </body>
 
