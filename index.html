@@ -145,7 +145,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
   
         // Función para agregar una fila a la tabla con los datos de una reserva
         const renderReserva = (reserva) => {
-            const tableBody = document.querySelector("#reservas-table tbody");
+            const tableBody = document.querySelector("empleados-table");
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${reserva.nombres}</td>
