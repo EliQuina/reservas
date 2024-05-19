@@ -132,75 +132,51 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
   productform.addEventListener("submit",async(e)=>{
     // evento
     e.preventDefault();
-    const productform = document.getElementById("form-product");
-        productform.addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            const id = productform.id.value;
-            const nombres = productform.nombres.value;
-            const apellidos = productform.apellidos.value;
-            const email = productform.email.value;
-            const telefono = productform.telefono.value;
-            const tipo = productform.tipo.value;
-            const fecha_hora_en = productform.fecha_hora_en.value;
-            const fecha_hora_sal = productform.fecha_hora_sal.value;
-            const estado = productform.estado.value;
-            const num_ha = productform.num_ha.value;
-            const precio = productform.precio.value;
-            const comentarios = productform.comentarios.value;
-
-            if (!id || !nombres || !apellidos || !email || !telefono || !fecha_hora_en || !fecha_hora_sal || !num_ha || !precio) {
-                alert("Por favor, complete todos los campos obligatorios.");
-                return;
-            }
-
-            await addDoc(collection(db, "reservas"), {
-                id: id,
-                nombres: nombres,
-                apellidos: apellidos,
-                email: email,
-                telefono: telefono,
-                tipo: tipo,
-                fecha_hora_en: fecha_hora_en,
-                fecha_hora_sal: fecha_hora_sal,
-                estado: estado,
-                num_ha: num_ha,
-                precio: precio,
-                comentarios: comentarios
-            });
-
-            productform.reset();
+    await addDoc(collection(db,"reservas"),{
+        id: productform.id.value,
+        nombres: productform.nombres.value,
+        apellidos: productform.apellidos.value,
+        email: productform.email.value,
+        telefono: productform.telefono.value,
+        tipo: productform.tipo.value,
+        fecha_hora_en: productform.fecha_hora_en.value,
+        fecha_hora_sal: productform.fecha_hora_sal.value,
+        estado: productform.estado.value,
+        num_ha: productform.num_ha.value,
+        precio: productform.precio.value,
+        comentarios: productform.comentarios.value
+    });
+    productform.reset();
+  });
+    // Después de agregar un documento, mostrar los datos en la tabla
+    onSnapshot(collection(db, "reservas"), (snapshot) => {
+        const tableBody = document.querySelector("#empleados-table tbody");
+        tableBody.innerHTML = "";
+        snapshot.forEach((doc) => {
+            const data = doc.data();
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${data.id}</td>
+                <td>${data.nombres}</td>
+                <td>${data.apellidos}</td>
+                <td>${data.email}</td>
+                <td>${data.telefono}</td>
+                <td>${data.tipo}</td>
+                <td>${data.fecha_hora_en}</td>
+                <td>${data.fecha_hora_sal}</td>
+                <td>${data.estado}</td>
+                <td>${data.num_ha}</td>
+                <td>${data.precio}</td>
+                <td>${data.comentarios}</td>
+                <td>
+                    <button onclick="deleteReserva('${doc.id}')" class="btn btn-danger">Eliminar</button>
+                    <button onclick="editReserva('${doc.id}', '${data.nombres}', '${data.apellidos}', '${data.email}', '${data.telefono}', '${data.tipo}', '${data.fecha_hora_en}', '${data.fecha_hora_sal}', '${data.estado}', '${data.num_ha}', '${data.precio}', '${data.comentarios}')" class="btn btn-primary">Editar</button>
+                </td>
+            `;
+            tableBody.appendChild(row);
         });
-
-        onSnapshot(collection(db, "reservas"), (snapshot) => {
-            const tableBody = document.querySelector("#empleados-table tbody");
-            tableBody.innerHTML = "";
-            snapshot.forEach((doc) => {
-                const data = doc.data();
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${data.id}</td>
-                    <td>${data.nombres}</td>
-                    <td>${data.apellidos}</td>
-                    <td>${data.email}</td>
-                    <td>${data.telefono}</td>
-                    <td>${data.tipo}</td>
-                    <td>${data.fecha_hora_en}</td>
-                    <td>${data.fecha_hora_sal}</td>
-                    <td>${data.estado}</td>
-                    <td>${data.num_ha}</td>
-                    <td>${data.precio}</td>
-                    <td>${data.comentarios}</td>
-                    <td>
-                        <button onclick="deleteReserva('${doc.id}')" class="btn btn-danger">Eliminar</button>
-                        <button onclick="editReserva('${doc.id}', '${data.nombres}', '${data.apellidos}', '${data.email}', '${data.telefono}', '${data.tipo}', '${data.fecha_hora_en}', '${data.fecha_hora_sal}', '${data.estado}', '${data.num_ha}', '${data.precio}', '${data.comentarios}')" class="btn btn-primary">Editar</button>
-                    </td>
-                `;
-                tableBody.appendChild(row);
-            });
-        });
-
-        async function deleteReserva(id) {
+    });
+    async function deleteReserva(id) {
             const confirmacion = confirm("¿Estás seguro de que deseas eliminar esta reserva?");
             if (confirmacion) {
                 await deleteDoc(doc(db, "reservas", id));
@@ -236,7 +212,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
                 comentarios: updatedComentarios
             });
         }
-
   </script>
   </body>
 
