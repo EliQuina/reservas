@@ -143,6 +143,35 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
     });
     productform.reset();
   });
+      // Función para eliminar un documento
+      const deleteProduct = async (id) => {
+        if (confirm("¿Estás seguro de que deseas eliminar este registro?")) {
+            await deleteDoc(doc(db, "reservas", id));
+        }
+    };
+
+    // Función para actualizar un documento
+    const updateProduct = async (id, newData) => {
+        await updateDoc(doc(db, "reservas", id), newData);
+    };
+    // Event listener para eliminar
+    const deleteButtons = document.querySelectorAll(".delete-btn");
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            deleteProduct(button.dataset.id);
+        });
+    });
+
+    // Event listener para actualizar
+    const updateButtons = document.querySelectorAll(".update-btn");
+    updateButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            const newData = {
+                // Aquí debes incluir los campos y sus nuevos valores
+            };
+            updateProduct(button.dataset.id, newData);
+        });
+    });
   </script>
   </body>
 
