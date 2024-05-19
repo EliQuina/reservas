@@ -102,6 +102,7 @@
                 </tr>
             </thead>
             <tbody></tbody>
+            <button onclick="verRegistro('${doc.id}', '${data.nombres}', '${data.apellidos}', '${data.email}', '${data.telefono}', '${data.tipo}', '${data.fecha_hora_en}', '${data.fecha_hora_sal}', '${data.estado}', '${data.num_ha}', '${data.precio}', '${data.comentarios}')" class="btn btn-info">Ver</button>
         </table>
     </div>
         </div>
@@ -176,42 +177,21 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
             tableBody.appendChild(row);
         });
     });
-    async function deleteReserva(id) {
-            const confirmacion = confirm("¿Estás seguro de que deseas eliminar esta reserva?");
-            if (confirmacion) {
-                await deleteDoc(doc(db, "reservas", id));
-            }
-        }
-
-        async function editReserva(id, nombres, apellidos, email, telefono, tipo, fecha_hora_en, fecha_hora_sal, estado, num_ha, precio, comentarios) {
-            const updatedId = prompt("Id:", id);
-            const updatedNombres = prompt("Nombres:", nombres);
-            const updatedApellidos = prompt("Apellidos:", apellidos);
-            const updatedEmail = prompt("Email:", email);
-            const updatedTelefono = prompt("Teléfono:", telefono);
-            const updatedTipo = prompt("Tipo de Habitación:", tipo);
-            const updatedFechaHoraEn = prompt("Fecha de Entrada:", fecha_hora_en);
-            const updatedFechaHoraSal = prompt("Fecha de Salida:", fecha_hora_sal);
-            const updatedEstado = prompt("Estado:", estado);
-            const updatedNumHa = prompt("Número de Habitación:", num_ha);
-            const updatedPrecio = prompt("Precio:", precio);
-            const updatedComentarios = prompt("Comentarios:", comentarios);
-
-            await updateDoc(doc(db, "reservas", id), {
-                id: updatedId,
-                nombres: updatedNombres,
-                apellidos: updatedApellidos,
-                email: updatedEmail,
-                telefono: updatedTelefono,
-                tipo: updatedTipo,
-                fecha_hora_en: updatedFechaHoraEn,
-                fecha_hora_sal: updatedFechaHoraSal,
-                estado: updatedEstado,
-                num_ha: updatedNumHa,
-                precio: updatedPrecio,
-                comentarios: updatedComentarios
-            });
-        }
+    function verRegistro(id, nombres, apellidos, email, telefono, tipo, fecha_hora_en, fecha_hora_sal, estado, num_ha, precio, comentarios) {
+    // Llenar el formulario con los datos del registro seleccionado
+    document.getElementById("id").value = id;
+    document.getElementById("nombres").value = nombres;
+    document.getElementById("apellidos").value = apellidos;
+    document.getElementById("email").value = email;
+    document.getElementById("telefono").value = telefono;
+    document.getElementById("tipo").value = tipo;
+    document.getElementById("fecha_hora_en").value = fecha_hora_en;
+    document.getElementById("fecha_hora_sal").value = fecha_hora_sal;
+    document.getElementById("estado").value = estado;
+    document.getElementById("num_ha").value = num_ha;
+    document.getElementById("precio").value = precio;
+    document.getElementById("comentarios").value = comentarios;
+}
   </script>
   </body>
 
