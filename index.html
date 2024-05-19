@@ -142,33 +142,44 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
     });
     productform.reset();
   });
-  
-        // Función para agregar una fila a la tabla con los datos de una reserva
-        const renderReserva = (reserva) => {
-            const tableBody = document.querySelector("empleados-table");
+    // Después de agregar un documento, mostrar los datos en la tabla
+    onSnapshot(collection(db, "reservas"), (snapshot) => {
+        const tableBody = document.querySelector("#empleados-table tbody");
+        tableBody.innerHTML = "";
+        snapshot.forEach((doc) => {
+            const data = doc.data();
             const row = document.createElement("tr");
             row.innerHTML = `
-                <td>${reserva.nombres}</td>
-                <td>${reserva.apellidos}</td>
-                <td>${reserva.email}</td>
-                <td>${reserva.telefono}</td>
-                <td>${reserva.tipo}</td>
-                <td>${reserva.fecha_hora_en}</td>
-                <td>${reserva.fecha_hora_sal}</td>
-                <td>${reserva.estado}</td>
-                <td>${reserva.num_ha}</td>
-                <td>${reserva.precio}</td>
-                <td>${reserva.comentarios}</td>
+                <td>${data.nombres}</td>
+                <td>${data.apellidos}</td>
+                <td>${data.email}</td>
+                <td>${data.telefono}</td>
+                <td>${data.tipo}</td>
+                <td>${data.fecha_hora_en}</td>
+                <td>${data.fecha_hora_sal}</td>
+                <td>${data.estado}</td>
+                <td>${data.num_ha}</td>
+                <td>${data.precio}</td>
+                <td>${data.comentarios}</td>
+                <td>
+                    <button onclick="deleteReserva('${doc.id}')" class="btn btn-danger">Eliminar</button>
+                    <button onclick="editReserva('${doc.id}')" class="btn btn-primary">Editar</button>
+                </td>
             `;
             tableBody.appendChild(row);
-        };
-
-        // Escucha cambios en la colección de reservas y renderiza las nuevas reservas
-        onSnapshot(collection(db, "reservas"), (querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                renderReserva({ id: doc.id, ...doc.data() });
-            });
         });
+    });
+
+    // Función para eliminar una reserva
+    async function deleteReserva(id) {
+        await deleteDoc(doc(db, "reservas", id));
+    }
+
+    // Función para editar una reserva (puedes implementarla según tus necesidades)
+    function editReserva(id) {
+        // Aquí puedes implementar la lógica para editar una reserva
+        // Por ejemplo, puedes abrir un modal con los datos del registro y permitir al usuario editarlos.
+    }
   </script>
   </body>
 
