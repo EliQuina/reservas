@@ -148,6 +148,14 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
     });
     productform.reset();
   });
+  async function deleteReserva(id) {
+    try {
+        await deleteDoc(doc(db, "reservas", id));
+        console.log("Registro eliminado exitosamente.");
+    } catch (error) {
+        console.error("Error al eliminar el registro:", error);
+    }
+}
     // Después de agregar un documento, mostrar los datos en la tabla
     onSnapshot(collection(db, "reservas"), (snapshot) => {
         const tableBody = document.querySelector("#empleados-table tbody");
@@ -175,14 +183,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
             `;
             tableBody.appendChild(row);
         });
-        async function deleteReserva(id) {
-    try {
-        await deleteDoc(doc(db, "reservas", id));
-        console.log("Registro eliminado exitosamente.");
-    } catch (error) {
-        console.error("Error al eliminar el registro:", error);
-    }
-}
     });
   </script>
   </body>
