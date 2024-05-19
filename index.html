@@ -22,6 +22,10 @@
     <div class="row">
         <div class="col-md-3">
             <form id="form-product">
+                <b >Id: </b>
+                <br>
+                <input style="border-radius: 10px;" type="number" id="id" placeholder="Nombres">
+                <br>
                 <b >Nombres: </b>
                 <br>
                 <input style="border-radius: 10px;" type="text" id="nombres" placeholder="Nombres">
@@ -83,6 +87,7 @@
         <table id="empleados-table">
             <thead>
                 <tr>
+                    <th>Id</th>
                     <th>Nombres</th>
                     <th>Apellidos</th>
                     <th>Email</th>
@@ -128,6 +133,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
     // evento
     e.preventDefault();
     await addDoc(collection(db,"reservas"),{
+        id: productform.id.value,
         nombres: productform.nombres.value,
         apellidos: productform.apellidos.value,
         email: productform.email.value,
@@ -150,6 +156,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
             const data = doc.data();
             const row = document.createElement("tr");
             row.innerHTML = `
+                <td>${data.id}</td>
                 <td>${data.nombres}</td>
                 <td>${data.apellidos}</td>
                 <td>${data.email}</td>
@@ -178,6 +185,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
     // Función para editar una reserva
     async function editReserva(id, nombres, apellidos, email, telefono, tipo, fecha_hora_en, fecha_hora_sal, estado, num_ha, precio, comentarios) {
         // Obtener los datos actualizados del usuario
+        const updatedId = prompt("Id:", id);
         const updatedNombres = prompt("Nombres:", nombres);
         const updatedApellidos = prompt("Apellidos:", apellidos);
         const updatedEmail = prompt("Email:", email);
@@ -192,6 +200,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 
         // Actualizar los datos en Firestore
         await updateDoc(doc(db, "reservas", id), {
+            id: updatedId,
             nombres: updatedNombres,
             apellidos: updatedApellidos,
             email: updatedEmail,
