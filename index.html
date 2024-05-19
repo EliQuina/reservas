@@ -83,18 +83,17 @@
         <table id="empleados-table">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Cargo</th>
-                    <th>Departamento</th>
-                    <th>Contrato</th>
-                    <th>Salario</th>
-                    <th>Correo</th>
-                    <th>Telefono</th>
-                    <th>Direccion</th>
-                    <th>Edad</th>
-                    <th>Acciones</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Tipo</th>
+                    <th>Fecha entrada</th>
+                    <th>Fecha salida</th>
+                    <th>Estado</th>
+                    <th>Numero de habitación</th>
+                    <th>Precio</th>
+                    <th>Comentarios</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -143,35 +142,33 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
     });
     productform.reset();
   });
-      // Función para eliminar un documento
-      const deleteProduct = async (id) => {
-        if (confirm("¿Estás seguro de que deseas eliminar este registro?")) {
-            await deleteDoc(doc(db, "reservas", id));
-        }
-    };
+  
+        // Función para agregar una fila a la tabla con los datos de una reserva
+        const renderReserva = (reserva) => {
+            const tableBody = document.querySelector("#reservas-table tbody");
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${reserva.nombres}</td>
+                <td>${reserva.apellidos}</td>
+                <td>${reserva.email}</td>
+                <td>${reserva.telefono}</td>
+                <td>${reserva.tipo}</td>
+                <td>${reserva.fecha_hora_en}</td>
+                <td>${reserva.fecha_hora_sal}</td>
+                <td>${reserva.estado}</td>
+                <td>${reserva.num_ha}</td>
+                <td>${reserva.precio}</td>
+                <td>${reserva.comentarios}</td>
+            `;
+            tableBody.appendChild(row);
+        };
 
-    // Función para actualizar un documento
-    const updateProduct = async (id, newData) => {
-        await updateDoc(doc(db, "reservas", id), newData);
-    };
-    // Event listener para eliminar
-    const deleteButtons = document.querySelectorAll(".delete-btn");
-    deleteButtons.forEach(button => {
-        button.addEventListener("click", () => {
-            deleteProduct(button.dataset.id);
+        // Escucha cambios en la colección de reservas y renderiza las nuevas reservas
+        onSnapshot(collection(db, "reservas"), (querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                renderReserva({ id: doc.id, ...doc.data() });
+            });
         });
-    });
-
-    // Event listener para actualizar
-    const updateButtons = document.querySelectorAll(".update-btn");
-    updateButtons.forEach(button => {
-        button.addEventListener("click", () => {
-            const newData = {
-                // Aquí debes incluir los campos y sus nuevos valores
-            };
-            updateProduct(button.dataset.id, newData);
-        });
-    });
   </script>
   </body>
 
