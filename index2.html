@@ -191,7 +191,7 @@
         onSnapshot(collection(db, "reservas"), (snapshot) => {
             tablaReservas.innerHTML = "";
             snapshot.forEach((doc) => {
-                const paciente = doc.data();
+                const reservas = doc.data();
                 tablaReservas.innerHTML += `
                     <tr>
                         <td>${reservas.id}</td>
