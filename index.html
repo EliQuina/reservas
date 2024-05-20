@@ -128,30 +128,35 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
   const app = initializeApp(firebaseConfig);
   // constancia de la base de datos
   const db=getFirestore(app);
-
   const productform = document.getElementById("form-product");
-  productform.addEventListener("submit",async(e)=>{
-    // evento
-    e.preventDefault();
-    await addDoc(collection(db,"reservas"),{
-        id: productform.id.value,
-        nombres: productform.nombres.value,
-        apellidos: productform.apellidos.value,
-        email: productform.email.value,
-        telefono: productform.telefono.value,
-        tipo: productform.tipo.value,
-        fecha_hora_en: productform.fecha_hora_en.value,
-        fecha_hora_sal: productform.fecha_hora_sal.value,
-        estado: productform.estado.value,
-        num_ha: productform.num_ha.value,
-        precio: productform.precio.value,
-        comentarios: productform.comentarios.value
-    });
-    productform.reset();
-  });
-          // Función para eliminar una reserva
-          async function eliminarReserva(id) {
+        const reservasBody = document.getElementById("reservas-body");
+
+        productform.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            await addDoc(collection(db, "reservas"), {
+                nombres: productform.nombres.value,
+                apellidos: productform.apellidos.value,
+                email: productform.email.value,
+                telefono: productform.telefono.value,
+                tipo: productform.tipo.value,
+                fecha_hora_en: productform.fecha_hora_en.value,
+                fecha_hora_sal: productform.fecha_hora_sal.value,
+                estado: productform.estado.value,
+                num_ha: productform.num_ha.value,
+                precio: productform.precio.value,
+                comentarios: productform.comentarios.value
+            });
+            productform.reset();
+        });
+
+        // Función para eliminar una reserva
+        async function eliminarReserva(id) {
             await deleteDoc(doc(db, "reservas", id));
+        }
+
+        // Función para actualizar una reserva
+        async function actualizarReserva(id, updatedData) {
+            await updateDoc(doc(db, "reservas", id), updatedData);
         }
 
         // Escucha cambios en la colección de reservas y actualiza la tabla
@@ -161,17 +166,17 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
                 const reserva = doc.data();
                 const row = document.createElement("tr");
                 row.innerHTML = `
-                    <td>${reserva.nombres}</td>
-                    <td>${reserva.apellidos}</td>
-                    <td>${reserva.email}</td>
-                    <td>${reserva.telefono}</td>
-                    <td>${reserva.tipo}</td>
-                    <td>${reserva.fecha_hora_en}</td>
-                    <td>${reserva.fecha_hora_sal}</td>
-                    <td>${reserva.estado}</td>
-                    <td>${reserva.num_ha}</td>
-                    <td>${reserva.precio}</td>
-                    <td>${reserva.comentarios}</td>
+                    <td><input type="text" value="${reserva.nombres}" onchange="actualizarCampo('${doc.id}', 'nombres', this.value)"></td>
+                    <td><input type="text" value="${reserva.apellidos}" onchange="actualizarCampo('${doc.id}', 'apellidos', this.value)"></td>
+                    <td><input type="text" value="${reserva.email}" onchange="actualizarCampo('${doc.id}', 'email', this.value)"></td>
+                    <td><input type="text" value="${reserva.telefono}" onchange="actualizarCampo('${doc.id}', 'telefono', this.value)"></td>
+                    <td><input type="text" value="${reserva.tipo}" onchange="actualizarCampo('${doc.id}', 'tipo', this.value)"></td>
+                    <td><input type="text" value="${reserva.fecha_hora_en}" onchange="actualizarCampo('${doc.id}', 'fecha_hora_en', this.value)"></td>
+                    <td><input type="text" value="${reserva.fecha_hora_sal}" onchange="actualizarCampo('${doc.id}', 'fecha_hora_sal', this.value)"></td>
+                    <td><input type="text" value="${reserva.estado}" onchange="actualizarCampo('${doc.id}', 'estado', this.value)"></td>
+                    <td><input type="text" value="${reserva.num_ha}" onchange="actualizarCampo('${doc.id}', 'num_ha', this.value)"></td>
+                    <td><input type="text" value="${reserva.precio}" onchange="actualizarCampo('${doc.id}', 'precio', this.value)"></td>
+                    <td><input type="text" value="${reserva.comentarios}" onchange="actualizarCampo('${doc.id}', 'comentarios', this.value)"></td>
                     <td>
                         <button class="btn btn-danger btn-sm" onclick="eliminarReserva('${doc.id}')">Eliminar</button>
                     </td>
@@ -180,7 +185,13 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
             });
         });
 
-  </script>
+        // Función para actualizar un campo de la reserva
+        window.actualizarCampo = (id, campo, valor) => {
+            const updatedData = {};
+            updatedData[campo] = valor;
+            actualizarReserva(id, updatedData);
+        };
+    </script>
   </body>
 
 </html>
