@@ -96,10 +96,7 @@
                         <th>Precio</th>
                         <th>Comentarios</th>
                         <th>Acciones</th>
-                    <center><button type="button" class="btn btn-warning" id="btn-editar">EDITAR
-
-                    </button> <button type="button" class="btn btn-danger" id="btn-eliminar">ELIMINAR</button>
-                    </tr>
+                        </tr>
                         </thead>
                         <tbody id="reservas-body"></tbody>
                         </table>
@@ -109,7 +106,8 @@
                         <script type="module">
                         // Import the functions you need from the SDKs you need
                         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-                        import {getFirestore,collection,addDoc,onSnapshot,updateDoc,deleteDoc,doc,query, where,getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+                        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
+                        
                         // Your web app's Firebase configuration
                         const firebaseConfig = {
                             apiKey: "AIzaSyAVMPwYyzfomxTdROK_jYhJ72QBT0cy2zw",
@@ -195,7 +193,7 @@
                                     <td>${reserva.precio}</td>
                                     <td>${reserva.comentarios}</td>
                                     <td>
-                                        <button class="btn btn-outline-primary btn-editar" data-id="btn-editar">Editar</button>
+                                        <button class="btn btn-outline-primary btn-editar" data-id="${doc.id}">Editar</button>
                                         <button class="btn btn-outline-danger btn-eliminar" data-id="${doc.id}">Eliminar</button>
                                     </td>
                                 `;
@@ -203,30 +201,29 @@
                                 // Agregar la fila al cuerpo de la tabla
                                 reservasBody.appendChild(row);
                             });
-                            //FUNCION EDITAR
-        const editarBtn = document.getElementById("btn-editar");
-        editarBtn.addEventListener("click", async () => {
-            const codigo = document.getElementById("codigo").value;
-            const q = query(collection(db, "reservas"), where("codigo", "==", codigo));
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach(async (docSnap) => {
-                const docRef = doc(db, "reservas", docSnap.id);
-                await updateDoc(docRef, {
-                    nombres: document.getElementById("nombres").value,
-                    apellidos: document.getElementById("apellidos").value,
-                    email: document.getElementById("email").value,
-                    telefono: document.getElementById("telefono").value,
-                    tipo: document.getElementById("tipo").value,
-                    fecha_hora_en: document.getElementById("fecha_hora_en").value,
-                    fecha_hora_sal: document.getElementById("fecha_hora_sal").value,
-                    estado: document.getElementById("estado").value,
-                    num_ha: document.getElementById("num_ha").value,
-                    precio: document.getElementById("precio").value,
-                    comentarios: document.getElementById("comentarios").value
-                });
-                reservasBody.reset();
-            });
-        });
+                        
+                            // Escuchar clics en botones de editar y eliminar
+                            document.querySelectorAll(".btn-editar").forEach(btn => {
+                                btn.addEventListener("click", async (e) => {
+                                    const id = e.target.getAttribute("data-id");
+                                    const reservaDoc = await getDoc(doc(db, "reservas", id));
+                                    const reservaData = reservaDoc.data();
+                                    productform.id.value = id;
+                                    productform.nombres.value = reservaData.nombres;
+                                    productform.apellidos.value = reservaData.apellidos;
+                                    productform.email.value = reservaData.email;
+                                    productform.telefono.value = reservaData.telefono;
+                                    productform.tipo.value = reservaData.tipo;
+                                    productform.fecha_hora_en.value = reservaData.fecha_hora_en;
+                                    productform.fecha_hora_sal.value = reservaData.fecha_hora_sal;
+                                    productform.estado.value = reservaData.estado;
+                                    productform.num_ha.value = reservaData.num_ha;
+                                    productform.precio.value = reservaData.precio;
+                                    productform.comentarios.value = reservaData.comentarios;
+                                    btnAgregar.classList.add("d-none");
+                                    btnActualizar.classList.remove("d-none");
+                                });
+                            });
                         
                             document.querySelectorAll(".btn-eliminar").forEach(btn => {
                                 btn.addEventListener("click", async (e) => {
