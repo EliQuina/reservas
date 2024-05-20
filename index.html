@@ -110,12 +110,12 @@
 
     // Your web app's Firebase configuration
     const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_AUTH_DOMAIN",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_STORAGE_BUCKET",
-        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-        appId: "YOUR_APP_ID"
+        apiKey: "AIzaSyAVMPwYyzfomxTdROK_jYhJ72QBT0cy2zw",
+        authDomain: "hotel-2a939.firebaseapp.com",
+        projectId: "hotel-2a939",
+        storageBucket: "hotel-2a939.appspot.com",
+        messagingSenderId: "342922590938",
+        appId: "1:342922590938:web:b86f4304821e21f3a983e3"
     };
 
     // Initialize Firebase
@@ -132,15 +132,7 @@
 
         if (btnActualizar.classList.contains("d-none")) {
             // Agregar reserva
-            await addDoc(collection)
-            btnAgregar.classList.remove("d-none");
-            btnActualizar.classList.add("d-none");
-        } else {
-            // Actualizar reserva
-            const id = productform.id.value;
-            const reservaDoc = await getDoc(doc(db, "reservas", id));
-            const reservaData = reservaDoc.data();
-            const updatedData = {
+            await addDoc(collection(db, "reservas"), {
                 nombres: productform.nombres.value,
                 apellidos: productform.apellidos.value,
                 email: productform.email.value,
@@ -152,23 +144,27 @@
                 num_ha: productform.num_ha.value,
                 precio: productform.precio.value,
                 comentarios: productform.comentarios.value
-            };
-
-            // Comparar los campos con los valores originales
-            for (const key in updatedData) {
-                if (updatedData[key] === reservaData[key]) {
-                    delete updatedData[key]; // Eliminar campos no modificados
-                }
-            }
-
-            // Actualizar solo los campos modificados
-            await updateDoc(doc(db, "reservas", id), updatedData);
-            
-            // Restablecer los campos del formulario
-            productform.reset();
+            });
+        } else {
+            // Actualizar reserva
+            const id = productform.id.value;
+            await updateDoc(doc(db, "reservas", id), {
+                nombres: productform.nombres.value,
+                apellidos: productform.apellidos.value,
+                email: productform.email.value,
+                telefono: productform.telefono.value,
+                tipo: productform.tipo.value,
+                fecha_hora_en: productform.fecha_hora_en.value,
+                fecha_hora_sal: productform.fecha_hora_sal.value,
+                estado: productform.estado.value,
+                num_ha: productform.num_ha.value,
+                precio: productform.precio.value,
+                comentarios: productform.comentarios.value
+            });
             btnAgregar.classList.remove("d-none");
             btnActualizar.classList.add("d-none");
         }
+        productform.reset();
     });
 
     // Escuchar cambios en la colección de reservas y actualizar la tabla
