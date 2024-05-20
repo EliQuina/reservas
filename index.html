@@ -148,50 +148,38 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
             });
             productform.reset();
         });
+        // Escuchar cambios en la colección de reservas
+onSnapshot(collection(db, "reservas"), (querySnapshot) => {
+    // Limpiar el cuerpo de la tabla
+    reservasBody.innerHTML = "";
 
-        // Función para eliminar una reserva
-        async function eliminarReserva(id) {
-            await deleteDoc(doc(db, "reservas", id));
-        }
+    // Iterar sobre los documentos de la colección
+    querySnapshot.forEach((doc) => {
+        // Obtener los datos de la reserva
+        const reserva = doc.data();
 
-        // Función para actualizar una reserva
-        async function actualizarReserva(id, updatedData) {
-            await updateDoc(doc(db, "reservas", id), updatedData);
-        }
+        // Crear una fila para la reserva
+        const row = document.createElement("tr");
 
-        // Escucha cambios en la colección de reservas y actualiza la tabla
-        onSnapshot(collection(db, "reservas"), (querySnapshot) => {
-            reservasBody.innerHTML = "";
-            querySnapshot.forEach((doc) => {
-                const reserva = doc.data();
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${doc.id}</td>
-                    <td><input type="text" value="${reserva.nombres}" onchange="actualizarCampo('${doc.id}', 'nombres', this.value)"></td>
-                    <td><input type="text" value="${reserva.apellidos}" onchange="actualizarCampo('${doc.id}', 'apellidos', this.value)"></td>
-                    <td><input type="text" value="${reserva.email}" onchange="actualizarCampo('${doc.id}', 'email', this.value)"></td>
-                    <td><input type="text" value="${reserva.telefono}" onchange="actualizarCampo('${doc.id}', 'telefono', this.value)"></td>
-                    <td><input type="text" value="${reserva.tipo}" onchange="actualizarCampo('${doc.id}', 'tipo', this.value)"></td>
-                    <td><input type="text" value="${reserva.fecha_hora_en}" onchange="actualizarCampo('${doc.id}', 'fecha_hora_en', this.value)"></td>
-                    <td><input type="text" value="${reserva.fecha_hora_sal}" onchange="actualizarCampo('${doc.id}', 'fecha_hora_sal', this.value)"></td>
-                    <td><input type="text" value="${reserva.estado}" onchange="actualizarCampo('${doc.id}', 'estado', this.value)"></td>
-                    <td><input type="text" value="${reserva.num_ha}" onchange="actualizarCampo('${doc.id}', 'num_ha', this.value)"></td>
-                    <td><input type="text" value="${reserva.precio}" onchange="actualizarCampo('${doc.id}', 'precio', this.value)"></td>
-                    <td><input type="text" value="${reserva.comentarios}" onchange="actualizarCampo('${doc.id}', 'comentarios', this.value)"></td>
-                    <td>
-                        <button class="btn btn-danger btn-sm" onclick="eliminarReserva('${doc.id}')">Eliminar</button>
-                    </td>
-                `;
-                reservasBody.appendChild(row);
-            });
-        });
+        // Llenar la fila con los datos de la reserva
+        row.innerHTML = `
+            <td>${reserva.nombres}</td>
+            <td>${reserva.apellidos}</td>
+            <td>${reserva.email}</td>
+            <td>${reserva.telefono}</td>
+            <td>${reserva.tipo}</td>
+            <td>${reserva.fecha_hora_en}</td>
+            <td>${reserva.fecha_hora_sal}</td>
+            <td>${reserva.estado}</td>
+            <td>${reserva.num_ha}</td>
+            <td>${reserva.precio}</td>
+            <td>${reserva.comentarios}</td>
+        `;
 
-        // Función para actualizar un campo de la reserva
-        window.actualizarCampo = (id, campo, valor) => {
-            const updatedData = {};
-            updatedData[campo] = valor;
-            actualizarReserva(id, updatedData);
-        };
+        // Agregar la fila al cuerpo de la tabla
+        reservasBody.appendChild(row);
+    });
+});      
   </script>
   </body>
 
