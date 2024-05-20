@@ -22,29 +22,26 @@
     <div class="row">
         <div class="col-md-3">
             <form id="form-product">
-                <b >Id: </b>
-                <br>
-                <input style="border-radius: 10px;" type="number" id="id" placeholder="Nombres">
-                <br>
+                <input type="hidden" id="id" name="id">
                 <b >Nombres: </b>
                 <br>
-                <input style="border-radius: 10px;" type="text" id="nombres" placeholder="Nombres">
+                <input style="border-radius: 10px;" type="text" id="nombres" name="nombres" placeholder="Nombres">
                 <br>
                 <b >Apellidos: </b>
                 <br>
-                <input style="border-radius: 10px;" type="text" id="apellidos" placeholder="Apellidos">
+                <input style="border-radius: 10px;" type="text" id="apellidos" name="apellidos" placeholder="Apellidos">
                 <br>
                 <b >Email</b>
                 <br>
-                <input style="border-radius: 10px; "type="text" id="email" placeholder="Email">
+                <input style="border-radius: 10px; "type="text" id="email" name="email" placeholder="Email">
                 <br>
                 <b >Teléfono</b>
                 <br>
-                <input style="border-radius: 10px;" type="number" id="telefono" placeholder="Telefono">
+                <input style="border-radius: 10px;" type="number" id="telefono" name="telefono" placeholder="Telefono">
                 <br>
                 <b>Tipo de Habitación</b>
                 <br>
-                <select style="border-radius: 10px;" type="text" id="tipo" >
+                <select style="border-radius: 10px;" type="text" id="tipo" name="tipo">
                     <option value="Individual">Pendiente</option>
                     <option value="Conyugal">Confirmada</option>
                     <option value="Familiar">Cancelada</option>
@@ -52,15 +49,15 @@
                 <br>
                 <b >Fecha de Entrada</b>
                 <br>
-                <input style="border-radius: 10px;" type="datetime-local" id="fecha_hora_en" ">
+                <input style="border-radius: 10px;" type="datetime-local" id="fecha_hora_en" name="fecha_hora_en">
                 <br>
                 <b >Fecha de Salida</b>
                 <br>
-                <input style="border-radius: 10px;" type="datetime-local" id="fecha_hora_sal" ">
+                <input style="border-radius: 10px;" type="datetime-local" id="fecha_hora_sal" name="fecha_hora_sal">
                 <br>
                 <b >Estado de la Habitación</b>
                 <br>
-                <select style="border-radius: 10px; display: flex;" type="text" id="estado" >
+                <select style="border-radius: 10px; display: flex;" type="text" id="estado" name="estado">
                     <option value="Pendiente">Pendiente</option>
                     <option value="Confirmada">Confirmada</option>
                     <option value="Cancelada">Cancelada</option>
@@ -68,17 +65,18 @@
                 <br>
                 <b >Número de Habitación</b>
                 <br>
-                <input style="border-radius: 10px;" type="number" id="num_ha" placeholder="Numero">
+                <input style="border-radius: 10px;" type="number" id="num_ha" name="num_ha" placeholder="Numero">
                 <br>
                 <b >Precio de la Habitación</b>
                 <br>
-                <input style="border-radius: 10px;" type="number" id="precio" placeholder="Precio">
+                <input style="border-radius: 10px;" type="number" id="precio" name="precio" placeholder="Precio">
                 <br>
                 <b >Comentarios</b>
                 <br>
-                <textarea style="border-radius: 10px;" name="comentario" id="comentarios" placeholder="Comentarios"></textarea>
+                <textarea style="border-radius: 10px;" name="comentarios" id="comentarios" placeholder="Comentarios"></textarea>
                 <br>
-                <button type="submit" class="btn btn-outline-info">Agregar Reserva</button>
+                <button type="submit" class="btn btn-outline-info" id="btnAgregar">Agregar Reserva</button>
+                <button type="button" class="btn btn-outline-success d-none" id="btnActualizar">Actualizar Reserva</button>
             </form> 
         </div>
         <div class="col-md-9">
@@ -97,6 +95,7 @@
                         <th>Numero de habitación</th>
                         <th>Precio</th>
                         <th>Comentarios</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="reservas-body"></tbody>
@@ -107,7 +106,7 @@
 <script type="module">
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import {getFirestore,collection,addDoc,onSnapshot} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
+import {getFirestore,collection,addDoc,onSnapshot,deleteDoc,doc,updateDoc} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -125,22 +124,46 @@ const app = initializeApp(firebaseConfig);
 const db=getFirestore(app);
 const productform = document.getElementById("form-product");
 const reservasBody = document.getElementById("reservas-body");
+const btnAgregar = document.getElementById("btnAgregar");
+const btnActualizar = document.getElementById("btnActualizar");
 
 productform.addEventListener("submit", async (e) => {
     e.preventDefault();
-    await addDoc(collection(db, "reservas"), {
-        nombres: productform.nombres.value,
-        apellidos: productform.apellidos.value,
-        email: productform.email.value,
-        telefono: productform.telefono.value,
-        tipo: productform.tipo.value,
-        fecha_hora_en: productform.fecha_hora_en.value,
-        fecha_hora_sal: productform.fecha_hora_sal.value,
-        estado: productform.estado.value,
-        num_ha: productform.num_ha.value,
-        precio: productform.precio.value,
-        comentarios: productform.comentarios.value
-    });
+
+    if (btnAgregar.classList.contains("d-none")) {
+        // Actualizar reserva
+        const id = productform.id.value;
+        await updateDoc(doc(db, "reservas", id), {
+            nombres: productform.nombres.value,
+            apellidos: productform.apellidos.value,
+            email: productform.email.value,
+            telefono: productform.telefono.value,
+            tipo: productform.tipo.value,
+            fecha_hora_en: productform.fecha_hora_en.value,
+            fecha_hora_sal: productform.fecha_hora_sal.value,
+            estado: productform.estado.value,
+            num_ha: productform.num_ha.value,
+            precio: productform.precio.value,
+            comentarios: productform.comentarios.value
+        });
+        btnAgregar.classList.remove("d-none");
+        btnActualizar.classList.add("d-none");
+    } else {
+        // Agregar reserva
+        await addDoc(collection(db, "reservas"), {
+            nombres: productform.nombres.value,
+            apellidos: productform.apellidos.value,
+            email: productform.email.value,
+            telefono: productform.telefono.value,
+            tipo: productform.tipo.value,
+            fecha_hora_en: productform.fecha_hora_en.value,
+            fecha_hora_sal: productform.fecha_hora_sal.value,
+            estado: productform.estado.value,
+            num_ha: productform.num_ha.value,
+            precio: productform.precio.value,
+            comentarios: productform.comentarios.value
+        });
+    }
     productform.reset();
 });
 
@@ -171,10 +194,44 @@ onSnapshot(collection(db, "reservas"), (querySnapshot) => {
             <td>${reserva.num_ha}</td>
             <td>${reserva.precio}</td>
             <td>${reserva.comentarios}</td>
+            <td>
+                <button class="btn btn-outline-primary btn-editar" data-id="${doc.id}">Editar</button>
+                <button class="btn btn-outline-danger btn-eliminar" data-id="${doc.id}">Eliminar</button>
+            </td>
         `;
 
         // Agregar la fila al cuerpo de la tabla
         reservasBody.appendChild(row);
+    });
+
+    // Escuchar clics en botones de editar y eliminar
+    document.querySelectorAll(".btn-editar").forEach(btn => {
+        btn.addEventListener("click", async (e) => {
+            const id = e.target.getAttribute("data-id");
+            const reservaDoc = await doc(db, "reservas", id).get();
+            const reservaData = reservaDoc.data();
+            productform.id.value = id;
+            productform.nombres.value = reservaData.nombres;
+            productform.apellidos.value = reservaData.apellidos;
+            productform.email.value = reservaData.email;
+            productform.telefono.value = reservaData.telefono;
+            productform.tipo.value = reservaData.tipo;
+            productform.fecha_hora_en.value = reservaData.fecha_hora_en;
+            productform.fecha_hora_sal.value = reservaData.fecha_hora_sal;
+            productform.estado.value = reservaData.estado;
+            productform.num_ha.value = reservaData.num_ha;
+            productform.precio.value = reservaData.precio;
+            productform.comentarios.value = reservaData.comentarios;
+            btnAgregar.classList.add("d-none");
+            btnActualizar.classList.remove("d-none");
+        });
+    });
+
+    document.querySelectorAll(".btn-eliminar").forEach(btn => {
+        btn.addEventListener("click", async (e) => {
+            const id = e.target.getAttribute("data-id");
+            await deleteDoc(doc(db, "reservas", id));
+        });
     });
 });
 </script>
