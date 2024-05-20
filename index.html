@@ -163,8 +163,8 @@
             });
             btnAgregar.classList.remove("d-none");
             btnActualizar.classList.add("d-none");
+            productform.reset();
         }
-        productform.reset();
     });
 
     // Escuchar cambios en la colección de reservas y actualizar la tabla
@@ -182,57 +182,4 @@
 
             // Llenar la fila con los datos de la reserva
             row.innerHTML = `
-                <td>${doc.id}</td>
-                <td>${reserva.nombres}</td>
-                <td>${reserva.apellidos}</td>
-                <td>${reserva.email}</td>
-                <td>${reserva.telefono}</td>
-                <td>${reserva.tipo}</td>
-                <td>${reserva.fecha_hora_en}</td>
-                <td>${reserva.fecha_hora_sal}</td>
-                <td>${reserva.estado}</td>
-                <td>${reserva.num_ha}</td>
-                <td>${reserva.precio}</td>
-                <td>${reserva.comentarios}</td>
-                <td>
-                    <button class="btn btn-outline-primary btn-editar" data-id="${doc.id}">Editar</button>
-                    <button class="btn btn-outline-danger btn-eliminar" data-id="${doc.id}">Eliminar</button>
-                </td>
-            `;
-
-            // Agregar la fila al cuerpo de la tabla
-            reservasBody.appendChild(row);
-        });
-
-        // Escuchar clics en botones de editar y eliminar
-        document.querySelectorAll(".btn-editar").forEach(btn => {
-            btn.addEventListener("click", async (e) => {
-                const id = e.target.getAttribute("data-id");
-                const reservaDoc = await getDoc(doc(db, "reservas", id));
-                const reservaData = reservaDoc.data();
-                productform.id.value = id;
-                productform.nombres.value = reservaData.nombres;
-                productform.apellidos.value = reservaData.apellidos;
-                productform.email.value = reservaData.email;
-                productform.telefono.value = reservaData.telefono;
-                productform.tipo.value = reservaData.tipo;
-                productform.fecha_hora_en.value = reservaData.fecha_hora_en;
-                productform.fecha_hora_sal.value = reservaData.fecha_hora_sal;
-                productform.estado.value = reservaData.estado;
-                productform.num_ha.value = reservaData.num_ha;
-                productform.precio.value = reservaData.precio;
-                productform.comentarios.value = reservaData.comentarios;
-                btnAgregar.classList.add("d-none");
-                btnActualizar.classList.remove("d-none");
-            });
-        });
-
-        document.querySelectorAll(".btn-eliminar").forEach(btn => {
-            btn.addEventListener("click", async (e) => {
-                const id = e.target.getAttribute("data-id");
-                await deleteDoc(doc(db, "reservas", id));
-            });
-        });
-    });
-</script>
-</html>
+                <td>${doc.id}</td
