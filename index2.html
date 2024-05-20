@@ -16,125 +16,95 @@
         color: white;
     }
 </style>
-<body id="reservas" style="margin: 40px;">
-    <div class="row">
-        <div class="col-md-12">
-            
-            <br>
-            &nbsp; &nbsp; &nbsp; &nbsp;
-            <br>
-        </div>
-
-    </div>
-    <center><h1 class="txt3 ">Gestion de Reservas</h1></center>
-    
+<body style="margin: 40px;">
+    <h1>GESTION DE RESERVAS</h1>
+    <a href="index2.html">HOLA</a>
     <hr>
-    
-    
-        <form id="form-reservas">
-                <div class="row">
-                    <div class="col-md-3">
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <label for=""><b>Id:</b> </label>
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <input type="text" id="id"  class="alert alert-warning" >
-                        <br>
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <label for=""><b>Nombres y Apellidos: </b></label>
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <input type="text" id="nombresyapellidos" class="alert alert-warning" >
-                        <br>
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-                        <label for=""><b>:Email</b></label>
-                        &nbsp;
-                        <input type="email" id="email" class="alert alert-warning" >
-                        <br>
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <label for=""><b>Telefono:</b> </label>
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; 
-                        <input type="number" id="telefono" class="alert alert-warning"  >
-                        <br>
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <select style="border-radius: 10px;" type="text" id="tipo" name="tipo">
-                            <option value="Individual">Pendiente</option>
-                            <option value="Conyugal">Confirmada</option>
-                            <option value="Familiar">Cancelada</option>
-                        </select>
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <label for=""><b>Precio: </b></label>
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;
-                        <input type="number" id="precio" class="alert alert-warning" >
-                        <br>
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <label for=""><b>Fecha y hora de Entrada </b></label>
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-                        <input type="datetime-local" id="fecha_hora_en" class="alert alert-warning" >
-                        <br>
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <label for=""><b>Fecha y hora de salida:</b> </label>
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                       <input type="datetime-local" id="fecha_hora_sal"  class="alert alert-warning">
-                        <br>
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <select style="border-radius: 10px; display: flex;" type="text" id="estado" name="estado">
-                            <option value="Pendiente">Pendiente</option>
-                            <option value="Confirmada">Confirmada</option>
-                            <option value="Cancelada">Cancelada</option>
-                        </select>
-                        <input type="text" id="tipo" class="alert alert-warning"                         <br>
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <label for=""><b>Numero de Habitación:</b> </label>
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; 
-                        <input type="number" id="num_ha" class="alert alert-warning" >
-                    
-                        <div class="col-md-9">
-                        <br>
-                        <br>
-                        <button type="submit" class="btn btn-success" id="btn-submit">Agregar paciente</button>
-                        <hr>
-                        <center>
-                            <input type="text" name="buscar" id="buscar" class="alert alert-warning" placeholder="Ingrese código">
-                            <br>
-                            <button type="button" id="btn-buscar" class="btn btn-dark">BUSCAR</button>
-                            <button type="button" id="btn-limpiar" class="btn btn-info">Limpiar</button> 
-                            <hr>
-                        </center>
-                        
-                        <center><button type="button" class="btn btn-warning" id="btn-editar">EDITAR
-
-                        </button> <button type="button" class="btn btn-danger" id="btn-eliminar">ELIMINAR</button>
-                    </center>
-                        
-                    </div>             
-
-                </div>
-
-        </form>  
-        ojo
-        <!-- Tabla para mostrar los pacientes -->
-    <div class="container">
-        <center><h2>Lista de Reservas</h2></center>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Nombres y Apellidos</th>
-                    <th>Email</th>
-                    <th>Telefonó</th>
-                    <th>Tipo</th>
-                    <th>Precio</th>
-                    <th>Fecha y hora de entrada</th>
-                    <th>Fecha y hora de salida</th>
-                    <th>Estado de Habitación</th>
-                    <th>Numero de Habitación</th>
-                </tr>
-            </thead>
-            <tbody id="tabla-reservas">
-                <!-- Los datos de los pacientes se insertarán aquí -->
-            </tbody>
-        </table>
-    </div>
-    
+    <div class="row">
+        <div class="col-md-3">
+            <form id="form-product">
+                <input type="hidden" id="id" name="id">
+                <b>Nombres: </b>
+                <br>
+                <input style="border-radius: 10px;" type="text" id="nombres" name="nombres" placeholder="Nombres">
+                <br>
+                <b>Apellidos: </b>
+                <br>
+                <input style="border-radius: 10px;" type="text" id="apellidos" name="apellidos" placeholder="Apellidos">
+                <br>
+                <b>Email</b>
+                <br>
+                <input style="border-radius: 10px;" type="text" id="email" name="email" placeholder="Email">
+                <br>
+                <b>Teléfono</b>
+                <br>
+                <input style="border-radius: 10px;" type="number" id="telefono" name="telefono" placeholder="Telefono">
+                <br>
+                <b>Tipo de Habitación</b>
+                <br>
+                <select style="border-radius: 10px;" type="text" id="tipo" name="tipo">
+                    <option value="Individual">Pendiente</option>
+                    <option value="Conyugal">Confirmada</option>
+                    <option value="Familiar">Cancelada</option>
+                </select>
+                <br>
+                <b>Fecha de Entrada</b>
+                <br>
+                <input style="border-radius: 10px;" type="datetime-local" id="fecha_hora_en" name="fecha_hora_en">
+                <br>
+                <b>Fecha de Salida</b>
+                <br>
+                <input style="border-radius: 10px;" type="datetime-local" id="fecha_hora_sal" name="fecha_hora_sal">
+                <br>
+                <b>Estado de la Habitación</b>
+                <br>
+                <select style="border-radius: 10px; display: flex;" type="text" id="estado" name="estado">
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="Confirmada">Confirmada</option>
+                    <option value="Cancelada">Cancelada</option>
+                </select>
+                <br>
+                <b>Número de Habitación</b>
+                <br>
+                <input style="border-radius: 10px;" type="number" id="num_ha" name="num_ha" placeholder="Numero">
+                <br>
+                <b>Precio de la Habitación</b>
+                <br>
+                <input style="border-radius: 10px;" type="number" id="precio" name="precio" placeholder="Precio">
+                <br>
+                <b>Comentarios</b>
+                <br>
+                <textarea style="border-radius: 10px;" name="comentarios" id="comentarios" placeholder="Comentarios"></textarea>
+                <br>
+                <button type="submit" class="btn btn-outline-info" id="btnAgregar">Agregar Reserva</button>
+                <button type="button" class="btn btn-outline-success" id="btnActualizar">Actualizar Reserva</button>
+            </form>
+        </div>
+        <div class="col-md-9">
+            <table id="empleados-table" class="table">
+                <thead>
+                    <tr>
+                        <th></th>Id</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                        <th>Tipo</th>
+                        <th>Fecha entrada</th>
+                        <th>Fecha salida</th>
+                        <th>Estado</th>
+                        <th>Numero de habitación</th>
+                        <th>Precio</th>
+                        <th>Comentarios</th>
+                        <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody id="reservas-body"></tbody>
+                        </table>
+                        </div>
+                        </div>
+                        </body>
+  
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
