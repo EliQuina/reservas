@@ -149,28 +149,37 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
     });
     productform.reset();
   });
-  const renderReserva = (reserva) => {
-            const tableBody = document.querySelector("empleados-table");
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${reserva.nombres}</td>
-                <td>${reserva.apellidos}</td>
-                <td>${reserva.email}</td>
-                <td>${reserva.telefono}</td>
-                <td>${reserva.tipo}</td>
-                <td>${reserva.fecha_hora_en}</td>
-                <td>${reserva.fecha_hora_sal}</td>
-                <td>${reserva.estado}</td>
-                <td>${reserva.num_ha}</td>
-                <td>${reserva.precio}</td>
-                <td>${reserva.comentarios}</td>
-                <td>
-                    <button class="delete-btn" data-id="${reserva.id}">Eliminar</button>
-                    <button class="update-btn" data-id="${reserva.id}">Actualizar</button>
-                </td>
-            `;
-            tableBody.appendChild(row);
-        };
+          // Función para eliminar una reserva
+          async function eliminarReserva(id) {
+            await deleteDoc(doc(db, "reservas", id));
+        }
+
+        // Escucha cambios en la colección de reservas y actualiza la tabla
+        onSnapshot(collection(db, "reservas"), (querySnapshot) => {
+            reservasBody.innerHTML = "";
+            querySnapshot.forEach((doc) => {
+                const reserva = doc.data();
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${reserva.nombres}</td>
+                    <td>${reserva.apellidos}</td>
+                    <td>${reserva.email}</td>
+                    <td>${reserva.telefono}</td>
+                    <td>${reserva.tipo}</td>
+                    <td>${reserva.fecha_hora_en}</td>
+                    <td>${reserva.fecha_hora_sal}</td>
+                    <td>${reserva.estado}</td>
+                    <td>${reserva.num_ha}</td>
+                    <td>${reserva.precio}</td>
+                    <td>${reserva.comentarios}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarReserva('${doc.id}')">Eliminar</button>
+                    </td>
+                `;
+                reservasBody.appendChild(row);
+            });
+        });
+
   </script>
   </body>
 
