@@ -232,29 +232,6 @@
                                 });
                             });
                         });
-                                 //FUNCION EDITAR
-        const editarBtn = document.getElementById("btn-editar");
-        editarBtn.addEventListener("click", async () => {
-            const codigo = document.getElementById("id").value;
-            const q = query(collection(db, "reservas"), where("id", "==", id));
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach(async (docSnap) => {
-                const docRef = doc(db, "reservas", docSnap.id);
-                await updateDoc(docRef, {
-                    id: document.getElementById("id").value,
-                    nombresyapellidos: document.getElementById("nombresyapellidos").value,
-                    email: document.getElementById("email").value,
-                    telefono: document.getElementById("telefono").value,
-                    tipo: document.getElementById("tipo").value,
-                    precio: document.getElementById("precio").value,
-                    fecha_hora_en: document.getElementById("fechayhoraentrada").value,
-                    fecha_hora_sal: document.getElementById("fechayhorasalida").value,
-                    estado: document.getElementById("estado").value,
-                    num_ha: document.getElementById("numero_habitaciones").value
-                });
-                reservas.reset();
-            });
-        });
                         </script>
                         </html>
                         
