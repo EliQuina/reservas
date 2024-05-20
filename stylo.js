@@ -18,140 +18,108 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
   const app = initializeApp(firebaseConfig);
   // constancia de la base de datos
   const db=getFirestore(app);
+
+  const empleadosCollection = collection(db, 'empleados');
+
+  let editando = false;
   
-let listaEmpleados = [];
-
-const objEmpleado = {
-    id: '',
-    nombre: '',
-    puesto: ''
-}
-
-let editando = false;
-
-const formulario = document.querySelector('#formulario');
-const nombreInput = document.querySelector('#nombre');
-const puestoInput = document.querySelector('#puesto');
-const btnAgregarInput = document.querySelector('#btnAgregar');
-
-formulario.addEventListener('submit', validarFormulario);
-
-function validarFormulario(e) {
+  const formulario = document.querySelector('#formulario');
+  const nombreInput = document.querySelector('#nombre');
+  const puestoInput = document.querySelector('#puesto');
+  const btnAgregarInput = document.querySelector('#btnAgregar');
+  
+  formulario.addEventListener('submit', validarFormulario);
+  
+  function validarFormulario(e) {
     e.preventDefault();
-
-    if(nombreInput.value === '' || puestoInput.value === '') {
-        alert('Todos los campos se deben llenar');
-        return;
+  
+    const nombre = nombreInput.value.trim();
+    const puesto = puestoInput.value.trim();
+  
+    if (nombre === '' || puesto === '') {
+      alert('Todos los campos se deben llenar');
+      return;
     }
-
-    if(editando) {
-        editarEmpleado();
-        editando = false;
+  
+    if (editando) {
+      editarEmpleado();
+      editando = false;
     } else {
-        objEmpleado.id = Date.now();
-        objEmpleado.nombre = nombreInput.value;
-        objEmpleado.puesto = puestoInput.value;
-
-        agregarEmpleado();
+      agregarEmpleado(nombre, puesto);
     }
-}
-
-function agregarEmpleado() {
-
-    listaEmpleados.push({...objEmpleado});
-
-    mostrarEmpleados();
-
-    formulario.reset();
-    limpiarObjeto();
-}
-
-function limpiarObjeto() {
-    objEmpleado.id = '';
-    objEmpleado.nombre = '';
-    objEmpleado.puesto = '';
-}
-
-function mostrarEmpleados() {
+  }
+  
+  async function agregarEmpleado(nombre, puesto) {
+    try {
+      const docRef = await addDoc(empleadosCollection, {
+        nombre: nombre,
+        puesto: puesto
+      });
+      console.log("Empleado agregado con ID: ", docRef.id);
+      mostrarEmpleados();
+      formulario.reset();
+    } catch (error) {
+      console.error("Error agregando empleado: ", error);
+    }
+  }
+  
+  function mostrarEmpleados() {
     limpiarHTML();
-
-    const divEmpleados = document.querySelector('.div-empleados');
-    
-    listaEmpleados.forEach(empleado => {
-        const {id, nombre, puesto} = empleado;
-
+  
+    onSnapshot(empleadosCollection, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const empleado = doc.data();
+        const { nombre, puesto } = empleado;
+  
         const parrafo = document.createElement('p');
-        parrafo.textContent = `${id} - ${nombre} - ${puesto} - `;
-        parrafo.dataset.id = id;
-
+        parrafo.textContent = `${doc.id} - ${nombre} - ${puesto} - `;
+        parrafo.dataset.id = doc.id;
+  
         const editarBoton = document.createElement('button');
-        editarBoton.onclick = () => cargarEmpleado(empleado);
+        editarBoton.onclick = () => cargarEmpleado(doc.id);
         editarBoton.textContent = 'Editar';
         editarBoton.classList.add('btn', 'btn-editar');
-        parrafo.append(editarBoton);
-
+        parrafo.appendChild(editarBoton);
+  
         const eliminarBoton = document.createElement('button');
-        eliminarBoton.onclick = () => eliminarEmpleado(id);
+        eliminarBoton.onclick = () => eliminarEmpleado(doc.id);
         eliminarBoton.textContent = 'Eliminar';
         eliminarBoton.classList.add('btn', 'btn-eliminar');
-        parrafo.append(eliminarBoton);
-
+        parrafo.appendChild(eliminarBoton);
+  
         const hr = document.createElement('hr');
-
-        divEmpleados.appendChild(parrafo);
-        divEmpleados.appendChild(hr);
+  
+        document.querySelector('.div-empleados').appendChild(parrafo);
+        document.querySelector('.div-empleados').appendChild(hr);
+      });
     });
-}
-
-function cargarEmpleado(empleado) {
-    const {id, nombre, puesto} = empleado;
-
-    nombreInput.value = nombre;
-    puestoInput.value = puesto;
-
-    objEmpleado.id = id;
-
-    formulario.querySelector('button[type="submit"]').textContent = 'Actualizar';
-    
-    editando = true;
-}
-
-function editarEmpleado() {
-
-    objEmpleado.nombre = nombreInput.value;
-    objEmpleado.puesto = puestoInput.value;
-
-    listaEmpleados.map(empleado => {
-
-        if(empleado.id === objEmpleado.id) {
-            empleado.id = objEmpleado.id;
-            empleado.nombre = objEmpleado.nombre;
-            empleado.puesto = objEmpleado.puesto;
-
-        }
-
-    });
-
-    limpiarHTML();
-    mostrarEmpleados();
-    formulario.reset();
-
-    formulario.querySelector('button[type="submit"]').textContent = 'Agregar';
-    
-    editando = false;
-}
-
-function eliminarEmpleado(id) {
-
-    listaEmpleados = listaEmpleados.filter(empleado => empleado.id !== id);
-
-    limpiarHTML();
-    mostrarEmpleados();
-}
-
-function limpiarHTML() {
-    const divEmpleados = document.querySelector('.div-empleados');
-    while(divEmpleados.firstChild) {
-        divEmpleados.removeChild(divEmpleados.firstChild);
+  }
+  
+  function cargarEmpleado(id) {
+    // Puedes implementar esta función si deseas cargar un empleado para edición
+  }
+  
+  function editarEmpleado() {
+    // Puedes implementar esta función si deseas editar un empleado
+  }
+  
+  async function eliminarEmpleado(id) {
+    try {
+      await deleteDoc(doc(db, 'empleados', id));
+      console.log("Empleado eliminado con ID: ", id);
+      limpiarHTML();
+      mostrarEmpleados();
+    } catch (error) {
+      console.error("Error eliminando empleado: ", error);
     }
-}
+  }
+  
+  function limpiarHTML() {
+    const divEmpleados = document.querySelector('.div-empleados');
+    while (divEmpleados.firstChild) {
+      divEmpleados.removeChild(divEmpleados.firstChild);
+    }
+  }
+  
+  // Mostrar empleados al cargar la página
+  document.addEventListener('DOMContentLoaded', mostrarEmpleados);
