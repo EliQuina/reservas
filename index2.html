@@ -248,8 +248,8 @@
        
 
          //FUNCION EDITAR
-        const editarBtn = document.getElementById("btn-editar");
-        editarBtn.addEventListener("click", async () => {
+            const editarBtn = document.getElementById("btn-editar");
+            editarBtn.addEventListener("click", async () => {
             const codigo = document.getElementById("id").value;
             const q = query(collection(db, "reservas"), where("id", "==", id));
             const querySnapshot = await getDocs(q);
