@@ -6,16 +6,22 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="estilo.css">
-    <title>Pacientes</title>
+    <title>Reservas</title>
 </head>
-<body id="pacientes">
+<style>
+    body {
+        background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.5)), url(https://s1.1zoom.me/big0/807/357828-admin.jpg);
+        background-size: cover;
+        background-position: center;
+        color: white;
+    }
+</style>
+<body id="reservas">
     <div class="row">
         <div class="col-md-12">
             
             <br>
             &nbsp; &nbsp; &nbsp; &nbsp;
-            <center><a href="index.html"><img src="imagenes/utc.png" alt="" class="logo"></a></center>
-            
             <br>
         </div>
 
@@ -25,57 +31,61 @@
     <hr>
     
     
-        <form id="form-veterinaria">
+        <form id="form-reservas">
                 <div class="row">
                     <div class="col-md-5">
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <label for=""><b>Codigo:</b> </label>
+                        <label for=""><b>Id:</b> </label>
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <input type="text" id="codigo"  class="alert alert-warning" >
+                        <input type="text" id="id"  class="alert alert-warning" >
                         <br>
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <label for=""><b>Edad: </b></label>
+                        <label for=""><b>Nombres y Apellidos: </b></label>
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                         <input type="text" id="edad" class="alert alert-warning" >
                         <br>
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-                        <label for=""><b>Fecha de nacimiento: </b></label>
+                        <label for=""><b>:Email</b></label>
                         &nbsp;
                         <input type="date" id="fecha_nacimiento" class="alert alert-warning" >
                         <br>
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <label for=""><b>Nombre:</b> </label>
+                        <label for=""><b>Telefono:</b> </label>
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; 
                         <input type="text" id="nombre" class="alert alert-warning"  >
                         <br>
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <label for=""><b>Propietario: </b></label>
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;  &nbsp; 
-                        <input type="text" id="propietario" class="alert alert-warning" >
-                            
+                        <select style="border-radius: 10px;" type="text" id="tipo" name="tipo">
+                            <option value="Individual">Pendiente</option>
+                            <option value="Conyugal">Confirmada</option>
+                            <option value="Familiar">Cancelada</option>
+                        </select>
                     </div>
                     <div class="col-md-4">
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <label for=""><b>Color: </b></label>
+                        <label for=""><b>Precio: </b></label>
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;
                         <input type="text" id="color" class="alert alert-warning" >
                         <br>
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <label for=""><b>Especie: </b></label>
+                        <label for=""><b>Fecha y hora de Entrada </b></label>
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
                         <input type="text" id="especie" class="alert alert-warning" >
                         <br>
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <label for=""><b>Genéro:</b> </label>
+                        <label for=""><b>Fecha y hora de salida:</b> </label>
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                        <input type="text" id="genero"  class="alert alert-warning">
                         <br>
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <label for=""><b>Peso:</b> </label>
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; 
+                        <select style="border-radius: 10px; display: flex;" type="text" id="estado" name="estado">
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Confirmada">Confirmada</option>
+                            <option value="Cancelada">Cancelada</option>
+                        </select>
                         <input type="text" id="peso" class="alert alert-warning"                         <br>
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <label for=""><b>Raza:</b> </label>
+                        <label for=""><b>Numero de Habitación:</b> </label>
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; 
                         <input type="text" id="raza" class="alert alert-warning" >
                     </div>
@@ -105,23 +115,23 @@
         ojo
         <!-- Tabla para mostrar los pacientes -->
     <div class="container">
-        <center><h2>Lista de Pacientes</h2></center>
+        <center><h2>Lista de Reservas</h2></center>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Código</th>
-                    <th>Nombre</th>
-                    <th>Propietario</th>
-                    <th>Edad</th>
-                    <th>Fecha de Nacimiento</th>
-                    <th>Color</th>
-                    <th>Especie</th>
-                    <th>Género</th>
-                    <th>Peso</th>
-                    <th>Raza</th>
+                    <th>Id</th>
+                    <th>Nombres y Apellidos</th>
+                    <th>Email</th>
+                    <th>Telefonó</th>
+                    <th>Tipo</th>
+                    <th>Precio</th>
+                    <th>Fecha y hora de entrada</th>
+                    <th>Fecha y hora de salida</th>
+                    <th>Estado de Habitación</th>
+                    <th>Numero de Habitación</th>
                 </tr>
             </thead>
-            <tbody id="tabla-pacientes">
+            <tbody id="tabla-reservas">
                 <!-- Los datos de los pacientes se insertarán aquí -->
             </tbody>
         </table>
@@ -137,12 +147,12 @@
       
         // Your web app's Firebase configuration
         const firebaseConfig = {
-          apiKey: "AIzaSyAv2YFuqtaX6AcoRE7t15WtLGjnjIoi400",
-          authDomain: "veterinaria-144cf.firebaseapp.com",
-          projectId: "veterinaria-144cf",
-          storageBucket: "veterinaria-144cf.appspot.com",
-          messagingSenderId: "895686591577",
-          appId: "1:895686591577:web:d0c78bb26bd16526e61d48"
+            apiKey: "AIzaSyAVMPwYyzfomxTdROK_jYhJ72QBT0cy2zw",
+            authDomain: "hotel-2a939.firebaseapp.com",
+            projectId: "hotel-2a939",
+            storageBucket: "hotel-2a939.appspot.com",
+            messagingSenderId: "342922590938",
+            appId: "1:342922590938:web:b86f4304821e21f3a983e3"
         };
       
         // Initialize Firebase
@@ -151,10 +161,10 @@
         const db = getFirestore(app);
 
         //FUNCION DE AGREGAR
-        const veterinaria = document.getElementById("form-veterinaria");
-        veterinaria.addEventListener("submit",async(e)=>{
+        const reservas = document.getElementById("form-reservas");
+        reservas.addEventListener("submit",async(e)=>{
             e.preventDefault();
-            const codigo = veterinaria.codigo.value;
+            const codigo = reservas.codigo.value;
         
             // Verificar si el código ya existe
             const codigoExistente = await verificarCodigoExistente(codigo);
@@ -162,48 +172,48 @@
                 alert("El código ya existe. Por favor, ingrese un código único.");
                 return;
             }
-            await addDoc(collection(db,"pacientes"),{
-                codigo: veterinaria.codigo.value,
-                color: veterinaria.color.value,
-                edad: veterinaria.edad.value,
-                especie: veterinaria.especie.value,
-                fecha_nacimiento: veterinaria.fecha_nacimiento.value,
-                genero: veterinaria.genero.value,
-                nombre: veterinaria.nombre.value,
-                peso: veterinaria.peso.value,
-                propietario: veterinaria.propietario.value,
-                raza: veterinaria.raza.value
+            await addDoc(collection(db,"reservas"),{
+                id: reservas.id.value,
+                nombresyapellidos: reservas.nombresyapellidos.value,
+                email: reservas.email.value,
+                telefono: reservas.telefono.value,
+                tipo: reservas.tipo.value,
+                precio: reservas.precio.value,
+                fecha_hora_en: reservas.fecha_hora_en.value,
+                fecha_hora_sal: reservas.fecha_hora_sal.value,
+                estado: reservas.estado.value,
+                num_ha: reservas.num_ha.value
             });
-            veterinaria.reset();
+            reservas.reset();
         });
 
         
             // Verificar si el código ya existe en la base de datos
-            async function verificarCodigoExistente(codigo) {
-                const q = query(collection(db, "pacientes"), where("codigo", "==", codigo));
+            async function verificarCodigoExistente(id) {
+                const q = query(collection(db, "reservas"), where("id", "==", id));
                 const querySnapshot = await getDocs(q);
                 return !querySnapshot.empty;
             }
 
 
            // Mostrar pacientes en la tabla
-        const tablaPacientes = document.getElementById("tabla-pacientes");
-        onSnapshot(collection(db, "pacientes"), (snapshot) => {
-            tablaPacientes.innerHTML = "";
+        const tablaReservas = document.getElementById("tabla-reservas");
+        onSnapshot(collection(db, "reservas"), (snapshot) => {
+            tablaReservas.innerHTML = "";
             snapshot.forEach((doc) => {
                 const paciente = doc.data();
-                tablaPacientes.innerHTML += `
+                tablaReservas.innerHTML += `
                     <tr>
-                        <td>${paciente.codigo}</td>
-                        <td>${paciente.nombre}</td>
-                        <td>${paciente.propietario}</td>
-                        <td>${paciente.edad}</td>
-                        <td>${paciente.fecha_nacimiento}</td>
-                        <td>${paciente.color}</td>
-                        <td>${paciente.especie}</td>
-                        <td>${paciente.genero}</td>
-                        <td>${paciente.peso}</td>
-                        <td>${paciente.raza}</td>
+                        <td>${reservas.id}</td>
+                        <td>${reservas.nombresyapellidos}</td>
+                        <td>${reservas.email}</td>
+                        <td>${reservas.telefono}</td>
+                        <td>${reservas.tipo}</td>
+                        <td>${reservas.precio}</td>
+                        <td>${reservas.fecha_hora_en}</td>
+                        <td>${reservas.fecha_hora_sal}</td>
+                        <td>${reservas.estado}</td>
+                        <td>${reservas.num_ha}</td>
                     </tr>
                 `;
             });
@@ -213,33 +223,33 @@
         const btnBuscar = document.getElementById("btn-buscar");
         btnBuscar.addEventListener("click", () => {
             const codigo = document.getElementById("buscar").value;
-            const tablaPacientes = document.getElementById("tabla-pacientes");
-            const rows = tablaPacientes.getElementsByTagName("tr");
-            let pacienteEncontrado = false;
+            const tablaReservas = document.getElementById("tabla-reservas");
+            const rows = tablaReservas.getElementsByTagName("tr");
+            let reservaEncontrado = false;
 
             for (let i = 0; i < rows.length; i++) {
                 const cells = rows[i].getElementsByTagName("td");
-                const codigoPaciente = cells[0].innerText;
+                const codigoReservas = cells[0].innerText;
 
-                if (codigoPaciente === codigo) {
-                    document.getElementById("codigo").value = cells[0].innerText;
-                    document.getElementById("nombre").value = cells[1].innerText;
-                    document.getElementById("propietario").value = cells[2].innerText;
-                    document.getElementById("edad").value = cells[3].innerText;
-                    document.getElementById("fecha_nacimiento").value = cells[4].innerText;
-                    document.getElementById("color").value = cells[5].innerText;
-                    document.getElementById("especie").value = cells[6].innerText;
-                    document.getElementById("genero").value = cells[7].innerText;
-                    document.getElementById("peso").value = cells[8].innerText;
-                    document.getElementById("raza").value = cells[9].innerText;
+                if (codigoReservas === codigo) {
+                    document.getElementById("id").value = cells[0].innerText;
+                    document.getElementById("nombresyapellidos").value = cells[1].innerText;
+                    document.getElementById("email").value = cells[2].innerText;
+                    document.getElementById("telefono").value = cells[3].innerText;
+                    document.getElementById("tipo").value = cells[4].innerText;
+                    document.getElementById("precio").value = cells[5].innerText;
+                    document.getElementById("fechayhoraentrada").value = cells[6].innerText;
+                    document.getElementById("fechayhorasalida").value = cells[7].innerText;
+                    document.getElementById("estado").value = cells[8].innerText;
+                    document.getElementById("numero_habitaciones").value = cells[9].innerText;
 
-                    pacienteEncontrado = true;
+                    reservaEncontrado = true;
                     break;
                 }
             }
 
-            if (!pacienteEncontrado) {
-                alert("No se encontró ningún paciente con ese código.");
+            if (!reservaEncontrado) {
+                alert("No se encontró ninguna reserva con ese código.");
             }
         });
         
@@ -248,54 +258,53 @@
          //FUNCION EDITAR
         const editarBtn = document.getElementById("btn-editar");
         editarBtn.addEventListener("click", async () => {
-            const codigo = document.getElementById("codigo").value;
-            const q = query(collection(db, "pacientes"), where("codigo", "==", codigo));
+            const codigo = document.getElementById("id").value;
+            const q = query(collection(db, "reservas"), where("id", "==", id));
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach(async (docSnap) => {
-                const docRef = doc(db, "pacientes", docSnap.id);
+                const docRef = doc(db, "reservas", docSnap.id);
                 await updateDoc(docRef, {
-                    codigo: document.getElementById("codigo").value,
-                    color: document.getElementById("color").value,
-                    edad: document.getElementById("edad").value,
-                    especie: document.getElementById("especie").value,
-                    fecha_nacimiento: document.getElementById("fecha_nacimiento").value,
-                    genero: document.getElementById("genero").value,
-                    nombre: document.getElementById("nombre").value,
-                    peso: document.getElementById("peso").value,
-                    propietario: document.getElementById("propietario").value,
-                    raza: document.getElementById("raza").value
+                    id: document.getElementById("id").value,
+                    nombresyapellidos: document.getElementById("nombresyapellidos").value,
+                    email: document.getElementById("email").value,
+                    telefono: document.getElementById("telefono").value,
+                    tipo: document.getElementById("tipo").value,
+                    precio: document.getElementById("precio").value,
+                    fecha_hora_en: document.getElementById("fechayhoraentrada").value,
+                    fecha_hora_sal: document.getElementById("fechayhorasalida").value,
+                    estado: document.getElementById("estado").value,
+                    num_ha: document.getElementById("numero_habitaciones").value
                 });
-                veterinaria.reset();
+                reservas.reset();
             });
         });
 
             //FUNCION ELIMINAR
         const eliminarBtn = document.getElementById("btn-eliminar");
         eliminarBtn.addEventListener("click", async () => {
-            const codigo = document.getElementById("codigo").value;
-            const q = query(collection(db, "pacientes"), where("codigo", "==", codigo));
+            const codigo = document.getElementById("id").value;
+            const q = query(collection(db, "reservas"), where("id", "==", id));
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach(async (docSnap) => {
-                await deleteDoc(doc(db, "pacientes", docSnap.id));
+                await deleteDoc(doc(db, "reservas", docSnap.id));
             });
-            veterinaria.reset();
+            reservas.reset();
         });
 
 
          //FUNCION LIMPIAR PANTALLA
          const btnLimpiar = document.getElementById("btn-limpiar");
         btnLimpiar.addEventListener("click", () => {
-            document.getElementById("codigo").value = "";
-            document.getElementById("nombre").value = "";
-            document.getElementById("propietario").value = "";
-            document.getElementById("edad").value = "";
-            document.getElementById("fecha_nacimiento").value = "";
-            document.getElementById("color").value = "";
-            document.getElementById("especie").value = "";
-            document.getElementById("genero").value = "";
-            document.getElementById("peso").value = "";
-            document.getElementById("raza").value = "";
-            document.getElementById("buscar").value="";
+            document.getElementById("id").value = "";
+            document.getElementById("nombresyapellidos").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("telefono").value = "";
+            document.getElementById("tipo").value = "";
+            document.getElementById("precio").value = "";
+            document.getElementById("fechayhoraentrada").value = "";
+            document.getElementById("fechayhorasalida").value = "";
+            document.getElementById("estado").value = "";
+            document.getElementById("numero_habitaciones").value = "";
         });
 
     </script>
