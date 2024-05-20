@@ -144,10 +144,10 @@
         const reservas = document.getElementById("form-reservas");
         reservas.addEventListener("submit",async(e)=>{
             e.preventDefault();
-            const codigo = reservas.codigo.value;
+            const codigo = reservas.id.value;
         
             // Verificar si el código ya existe
-            const codigoExistente = await verificarCodigoExistente(codigo);
+            const codigoExistente = await verificarCodigoExistente(id);
             if (codigoExistente) {
                 alert("El código ya existe. Por favor, ingrese un código único.");
                 return;
