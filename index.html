@@ -166,6 +166,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
                 const reserva = doc.data();
                 const row = document.createElement("tr");
                 row.innerHTML = `
+                    <td>${doc.id}</td>
                     <td><input type="text" value="${reserva.nombres}" onchange="actualizarCampo('${doc.id}', 'nombres', this.value)"></td>
                     <td><input type="text" value="${reserva.apellidos}" onchange="actualizarCampo('${doc.id}', 'apellidos', this.value)"></td>
                     <td><input type="text" value="${reserva.email}" onchange="actualizarCampo('${doc.id}', 'email', this.value)"></td>
@@ -191,7 +192,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
             updatedData[campo] = valor;
             actualizarReserva(id, updatedData);
         };
-    </script>
+  </script>
   </body>
 
 </html>
