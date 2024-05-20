@@ -1,3 +1,24 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import {getFirestore,collection,addDoc,onSnapshot,deleteDoc,doc,updateDoc} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+  
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyAVMPwYyzfomxTdROK_jYhJ72QBT0cy2zw",
+    authDomain: "hotel-2a939.firebaseapp.com",
+    projectId: "hotel-2a939",
+    storageBucket: "hotel-2a939.appspot.com",
+    messagingSenderId: "342922590938",
+    appId: "1:342922590938:web:b86f4304821e21f3a983e3"
+  };
+  
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  // constancia de la base de datos
+  const db=getFirestore(app);
+  
 let listaEmpleados = [];
 
 const objEmpleado = {
