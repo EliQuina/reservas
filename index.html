@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <style>
-    body{
+    body {
         background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.5)), url(https://s1.1zoom.me/big0/807/357828-admin.jpg);
         background-size: cover;
         background-position: center;
@@ -23,19 +23,19 @@
         <div class="col-md-3">
             <form id="form-product">
                 <input type="hidden" id="id" name="id">
-                <b >Nombres: </b>
+                <b>Nombres: </b>
                 <br>
                 <input style="border-radius: 10px;" type="text" id="nombres" name="nombres" placeholder="Nombres">
                 <br>
-                <b >Apellidos: </b>
+                <b>Apellidos: </b>
                 <br>
                 <input style="border-radius: 10px;" type="text" id="apellidos" name="apellidos" placeholder="Apellidos">
                 <br>
-                <b >Email</b>
+                <b>Email</b>
                 <br>
-                <input style="border-radius: 10px; "type="text" id="email" name="email" placeholder="Email">
+                <input style="border-radius: 10px;" type="text" id="email" name="email" placeholder="Email">
                 <br>
-                <b >Teléfono</b>
+                <b>Teléfono</b>
                 <br>
                 <input style="border-radius: 10px;" type="number" id="telefono" name="telefono" placeholder="Telefono">
                 <br>
@@ -47,15 +47,15 @@
                     <option value="Familiar">Cancelada</option>
                 </select>
                 <br>
-                <b >Fecha de Entrada</b>
+                <b>Fecha de Entrada</b>
                 <br>
                 <input style="border-radius: 10px;" type="datetime-local" id="fecha_hora_en" name="fecha_hora_en">
                 <br>
-                <b >Fecha de Salida</b>
+                <b>Fecha de Salida</b>
                 <br>
                 <input style="border-radius: 10px;" type="datetime-local" id="fecha_hora_sal" name="fecha_hora_sal">
                 <br>
-                <b >Estado de la Habitación</b>
+                <b>Estado de la Habitación</b>
                 <br>
                 <select style="border-radius: 10px; display: flex;" type="text" id="estado" name="estado">
                     <option value="Pendiente">Pendiente</option>
@@ -63,21 +63,21 @@
                     <option value="Cancelada">Cancelada</option>
                 </select>
                 <br>
-                <b >Número de Habitación</b>
+                <b>Número de Habitación</b>
                 <br>
                 <input style="border-radius: 10px;" type="number" id="num_ha" name="num_ha" placeholder="Numero">
                 <br>
-                <b >Precio de la Habitación</b>
+                <b>Precio de la Habitación</b>
                 <br>
                 <input style="border-radius: 10px;" type="number" id="precio" name="precio" placeholder="Precio">
                 <br>
-                <b >Comentarios</b>
+                <b>Comentarios</b>
                 <br>
                 <textarea style="border-radius: 10px;" name="comentarios" id="comentarios" placeholder="Comentarios"></textarea>
                 <br>
                 <button type="submit" class="btn btn-outline-info" id="btnAgregar">Agregar Reserva</button>
                 <button type="button" class="btn btn-outline-success d-none" id="btnActualizar">Actualizar Reserva</button>
-            </form> 
+            </form>
         </div>
         <div class="col-md-9">
             <table id="empleados-table" class="table">
@@ -104,135 +104,135 @@
     </div>
 </body>
 <script type="module">
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import {getFirestore,collection,addDoc,onSnapshot,deleteDoc,doc,updateDoc} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyAVMPwYyzfomxTdROK_jYhJ72QBT0cy2zw",
-  authDomain: "hotel-2a939.firebaseapp.com",
-  projectId: "hotel-2a939",
-  storageBucket: "hotel-2a939.appspot.com",
-  messagingSenderId: "342922590938",
-  appId: "1:342922590938:web:b86f4304821e21f3a983e3"
-};
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyAVMPwYyzfomxTdROK_jYhJ72QBT0cy2zw",
+        authDomain: "hotel-2a939.firebaseapp.com",
+        projectId: "hotel-2a939",
+        storageBucket: "hotel-2a939.appspot.com",
+        messagingSenderId: "342922590938",
+        appId: "1:342922590938:web:b86f4304821e21f3a983e3"
+    };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-// constancia de la base de datos
-const db=getFirestore(app);
-const productform = document.getElementById("form-product");
-const reservasBody = document.getElementById("reservas-body");
-const btnAgregar = document.getElementById("btnAgregar");
-const btnActualizar = document.getElementById("btnActualizar");
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    // Constancia de la base de datos
+    const db = getFirestore(app);
+    const productform = document.getElementById("form-product");
+    const reservasBody = document.getElementById("reservas-body");
+    const btnAgregar = document.getElementById("btnAgregar");
+    const btnActualizar = document.getElementById("btnActualizar");
 
-productform.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    productform.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-    if (btnAgregar.classList.contains("d-none")) {
-        // Actualizar reserva
-        const id = productform.id.value;
-        await updateDoc(doc(db, "reservas", id), {
-            nombres: productform.nombres.value,
-            apellidos: productform.apellidos.value,
-            email: productform.email.value,
-            telefono: productform.telefono.value,
-            tipo: productform.tipo.value,
-            fecha_hora_en: productform.fecha_hora_en.value,
-            fecha_hora_sal: productform.fecha_hora_sal.value,
-            estado: productform.estado.value,
-            num_ha: productform.num_ha.value,
-            precio: productform.precio.value,
-            comentarios: productform.comentarios.value
-        });
-        btnAgregar.classList.remove("d-none");
-        btnActualizar.classList.add("d-none");
-    } else {
-        // Agregar reserva
-        await addDoc(collection(db, "reservas"), {
-            nombres: productform.nombres.value,
-            apellidos: productform.apellidos.value,
-            email: productform.email.value,
-            telefono: productform.telefono.value,
-            tipo: productform.tipo.value,
-            fecha_hora_en: productform.fecha_hora_en.value,
-            fecha_hora_sal: productform.fecha_hora_sal.value,
-            estado: productform.estado.value,
-            num_ha: productform.num_ha.value,
-            precio: productform.precio.value,
-            comentarios: productform.comentarios.value
-        });
-    }
-    productform.reset();
-});
-
-// Escuchar cambios en la colección de reservas y actualizar la tabla
-onSnapshot(collection(db, "reservas"), (querySnapshot) => {
-    // Limpiar el cuerpo de la tabla
-    reservasBody.innerHTML = "";
-
-    // Iterar sobre los documentos de la colección
-    querySnapshot.forEach((doc) => {
-        // Obtener los datos de la reserva
-        const reserva = doc.data();
-
-        // Crear una fila para la reserva
-        const row = document.createElement("tr");
-
-        // Llenar la fila con los datos de la reserva
-        row.innerHTML = `
-            <td>${doc.id}</td>
-            <td>${reserva.nombres}</td>
-            <td>${reserva.apellidos}</td>
-            <td>${reserva.email}</td>
-            <td>${reserva.telefono}</td>
-            <td>${reserva.tipo}</td>
-            <td>${reserva.fecha_hora_en}</td>
-            <td>${reserva.fecha_hora_sal}</td>
-            <td>${reserva.estado}</td>
-            <td>${reserva.num_ha}</td>
-            <td>${reserva.precio}</td>
-            <td>${reserva.comentarios}</td>
-            <td>
-                <button class="btn btn-outline-primary btn-editar" data-id="${doc.id}">Editar</button>
-                <button class="btn btn-outline-danger btn-eliminar" data-id="${doc.id}">Eliminar</button>
-            </td>
-        `;
-
-        // Agregar la fila al cuerpo de la tabla
-        reservasBody.appendChild(row);
+        if (btnActualizar.classList.contains("d-none")) {
+            // Agregar reserva
+            await addDoc(collection(db, "reservas"), {
+                nombres: productform.nombres.value,
+                apellidos: productform.apellidos.value,
+                email: productform.email.value,
+                telefono: productform.telefono.value,
+                tipo: productform.tipo.value,
+                fecha_hora_en: productform.fecha_hora_en.value,
+                fecha_hora_sal: productform.fecha_hora_sal.value,
+                estado: productform.estado.value,
+                num_ha: productform.num_ha.value,
+                precio: productform.precio.value,
+                comentarios: productform.comentarios.value
+            });
+        } else {
+            // Actualizar reserva
+            const id = productform.id.value;
+            await updateDoc(doc(db, "reservas", id), {
+                nombres: productform.nombres.value,
+                apellidos: productform.apellidos.value,
+                email: productform.email.value,
+                telefono: productform.telefono.value,
+                tipo: productform.tipo.value,
+                fecha_hora_en: productform.fecha_hora_en.value,
+                fecha_hora_sal: productform.fecha_hora_sal.value,
+                estado: productform.estado.value,
+                num_ha: productform.num_ha.value,
+                precio: productform.precio.value,
+                comentarios: productform.comentarios.value
+            });
+            btnAgregar.classList.remove("d-none");
+            btnActualizar.classList.add("d-none");
+        }
+        productform.reset();
     });
 
-    // Escuchar clics en botones de editar y eliminar
-    document.querySelectorAll(".btn-editar").forEach(btn => {
-        btn.addEventListener("click", async (e) => {
-            const id = e.target.getAttribute("data-id");
-            const reservaDoc = await doc(db, "reservas", id).get();
-            const reservaData = reservaDoc.data();
-            productform.id.value = id;
-            productform.nombres.value = reservaData.nombres;
-            productform.apellidos.value = reservaData.apellidos;
-            productform.email.value = reservaData.email;
-            productform.telefono.value = reservaData.telefono;
-            productform.tipo.value = reservaData.tipo;
-            productform.fecha_hora_en.value = reservaData.fecha_hora_en;
-            productform.fecha_hora_sal.value = reservaData.fecha_hora_sal;
-            productform.estado.value = reservaData.estado;
-            productform.num_ha.value = reservaData.num_ha;
-            productform.precio.value = reservaData.precio;
-            productform.comentarios.value = reservaData.comentarios;
-            btnAgregar.classList.add("d-none");
-            btnActualizar.classList.remove("d-none");
-        });
-    });
+    // Escuchar cambios en la colección de reservas y actualizar la tabla
+    onSnapshot(collection(db, "reservas"), (querySnapshot) => {
+        // Limpiar el cuerpo de la tabla
+        reservasBody.innerHTML = "";
 
-    document.querySelectorAll(".btn-eliminar").forEach(btn => {
-        btn.addEventListener("click", async (e) => {
-            const id = e.target.getAttribute("data-id");
-            await deleteDoc(doc(db, "reservas", id));
+        // Iterar sobre los documentos de la colección
+        querySnapshot.forEach((doc) => {
+            // Obtener los datos de la reserva
+            const reserva = doc.data();
+
+            // Crear una fila para la reserva
+            const row = document.createElement("tr");
+
+            // Llenar la fila con los datos de la reserva
+            row.innerHTML = `
+                <td>${doc.id}</td>
+                <td>${reserva.nombres}</td>
+                <td>${reserva.apellidos}</td>
+                <td>${reserva.email}</td>
+                <td>${reserva.telefono}</td>
+                <td>${reserva.tipo}</td>
+                <td>${reserva.fecha_hora_en}</td>
+                <td>${reserva.fecha_hora_sal}</td>
+                <td>${reserva.estado}</td>
+                <td>${reserva.num_ha}</td>
+                <td>${reserva.precio}</td>
+                <td>${reserva.comentarios}</td>
+                <td>
+                    <button class="btn btn-outline-primary btn-editar" data-id="${doc.id}">Editar</button>
+                    <button class="btn btn-outline-danger btn-eliminar" data-id="${doc.id}">Eliminar</button>
+                </td>
+            `;
+
+            // Agregar la fila al cuerpo de la tabla
+            reservasBody.appendChild(row);
+        });
+
+        // Escuchar clics en botones de editar y eliminar
+        document.querySelectorAll(".btn-editar").forEach(btn => {
+            btn.addEventListener("click", async (e) => {
+                const id = e.target.getAttribute("data-id");
+                const reservaDoc = await getDoc(doc(db, "reservas", id));
+                const reservaData = reservaDoc.data();
+                productform.id.value = id;
+                productform.nombres.value = reservaData.nombres;
+                productform.apellidos.value = reservaData.apellidos;
+                productform.email.value = reservaData.email;
+                productform.telefono.value = reservaData.telefono;
+                productform.tipo.value = reservaData.tipo;
+                productform.fecha_hora_en.value = reservaData.fecha_hora_en;
+                productform.fecha_hora_sal.value = reservaData.fecha_hora_sal;
+                productform.estado.value = reservaData.estado;
+                productform.num_ha.value = reservaData.num_ha;
+                productform.precio.value = reservaData.precio;
+                productform.comentarios.value = reservaData.comentarios;
+                btnAgregar.classList.add("d-none");
+                btnActualizar.classList.remove("d-none");
+            });
+        });
+
+        document.querySelectorAll(".btn-eliminar").forEach(btn => {
+            btn.addEventListener("click", async (e) => {
+                const id = e.target.getAttribute("data-id");
+                await deleteDoc(doc(db, "reservas", id));
+            });
         });
     });
-});
 </script>
 </html>
