@@ -6,6 +6,9 @@
     <title>Formulario de Login - Reservas de Hoteles</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
         body {
             background: linear-gradient(to bottom right, #5646e6, #53d3c2);
@@ -70,41 +73,6 @@
         <button class="btn btn-secondary btn-block mt-2" id="registro">Registrar</button>
         <button class="btn btn-google btn-block mt-2" id="google">Iniciar Sesión con Google</button>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            var username = document.getElementById('username');
-            var password = document.getElementById('password');
-            var usernameError = document.getElementById('usernameError');
-            var passwordError = document.getElementById('passwordError');
-            var isValid = true;
-
-            if (username.value === '') {
-                usernameError.style.display = 'block';
-                username.classList.add('animate__animated', 'animate__shake');
-                isValid = false;
-            } else {
-                usernameError.style.display = 'none';
-                username.classList.remove('animate__animated', 'animate__shake');
-            }
-
-            if (password.value === '') {
-                passwordError.style.display = 'block';
-                password.classList.add('animate__animated', 'animate__shake');
-                isValid = false;
-            } else {
-                passwordError.style.display = 'none';
-                password.classList.remove('animate__animated', 'animate__shake');
-            }
-
-            if (isValid) {
-                this.submit();
-            }
-        });
-    </script>
     <script type="module">
          // Import the functions you need from the SDKs you need
          import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js";
