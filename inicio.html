@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de Login - Reservas de Hoteles</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #f2f2f2;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to bottom right, #6a11cb, #2575fc);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -19,6 +21,8 @@
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
         }
         .btn-google {
             background-color: #db4437;
@@ -27,19 +31,39 @@
         .btn-google:hover {
             background-color: #c23321;
         }
+        .error-message {
+            display: none;
+            color: red;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        .animate__animated {
+            animation-duration: 1s;
+            animation-fill-mode: both;
+        }
+        .animate__shake {
+            animation-name: shake;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-10px); }
+            40%, 80% { transform: translateX(10px); }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2 class="text-center mb-4">Iniciar Sesión - Reservas de Hoteles</h2>
-        <form action="/login" method="post">
+        <form id="loginForm">
             <div class="form-group">
                 <label for="username">Nombre de Usuario</label>
                 <input type="text" class="form-control" id="username" name="username" placeholder="Introduce tu nombre de usuario" required>
+                <div class="error-message" id="usernameError">El nombre de usuario es requerido.</div>
             </div>
             <div class="form-group">
                 <label for="password">Contraseña</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Introduce tu contraseña" required>
+                <div class="error-message" id="passwordError">La contraseña es requerida.</div>
             </div>
             <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
         </form>
@@ -49,5 +73,37 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var username = document.getElementById('username');
+            var password = document.getElementById('password');
+            var usernameError = document.getElementById('usernameError');
+            var passwordError = document.getElementById('passwordError');
+            var isValid = true;
+
+            if (username.value === '') {
+                usernameError.style.display = 'block';
+                username.classList.add('animate__animated', 'animate__shake');
+                isValid = false;
+            } else {
+                usernameError.style.display = 'none';
+                username.classList.remove('animate__animated', 'animate__shake');
+            }
+
+            if (password.value === '') {
+                passwordError.style.display = 'block';
+                password.classList.add('animate__animated', 'animate__shake');
+                isValid = false;
+            } else {
+                passwordError.style.display = 'none';
+                password.classList.remove('animate__animated', 'animate__shake');
+            }
+
+            if (isValid) {
+                this.submit();
+            }
+        });
+    </script>
 </body>
 </html>
