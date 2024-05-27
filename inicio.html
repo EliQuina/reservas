@@ -56,19 +56,19 @@
         <h2 class="text-center mb-4">Iniciar Sesión - Reservas de Hoteles</h2>
         <form id="loginForm">
             <div class="form-group">
-                <label for="username">Nombre de Usuario</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="Introduce tu nombre de usuario" required>
-                <div class="error-message" id="usernameError">El nombre de usuario es requerido.</div>
+                <label for="username">Correo: </label>
+                <input type="text" class="form-control" id="correo" name="username" placeholder="Introduce tu coreo" required>
+                <div class="error-message" id="usernameError">El correo es requerido.</div>
             </div>
             <div class="form-group">
-                <label for="password">Contraseña</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Introduce tu contraseña" required>
+                <label for="password">Contraseña: </label>
+                <input type="password" class="form-control" id="contraseña" name="password" placeholder="Introduce tu contraseña" required>
                 <div class="error-message" id="passwordError">La contraseña es requerida.</div>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+            <button type="submit" class="btn btn-primary btn-block" id="iniciar">Iniciar Sesión</button>
         </form>
-        <button class="btn btn-secondary btn-block mt-2" onclick="window.location.href='/register'">Registrar</button>
-        <button class="btn btn-google btn-block mt-2" onclick="window.location.href='/login-google'">Iniciar Sesión con Google</button>
+        <button class="btn btn-secondary btn-block mt-2" id="registro">Registrar</button>
+        <button class="btn btn-google btn-block mt-2" id="google">Iniciar Sesión con Google</button>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -103,6 +103,90 @@
             if (isValid) {
                 this.submit();
             }
+        });
+           // Import the functions you need from the SDKs you need
+           import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAVMPwYyzfomxTdROK_jYhJ72QBT0cy2zw",
+            authDomain: "hotel-2a939.firebaseapp.com",
+            projectId: "hotel-2a939",
+            storageBucket: "hotel-2a939.appspot.com",
+            messagingSenderId: "342922590938",
+            appId: "1:342922590938:web:b86f4304821e21f3a983e3"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Initialize Google Auth provider
+        const provider = new GoogleAuthProvider();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('loginForm');
+            const correo = document.getElementById('correo');
+            const contraseña = document.getElementById('contraseña');
+            const iniciar = document.getElementById('iniciar');
+            const registro = document.getElementById('registro');
+            const google = document.getElementById('google');
+
+            
+
+            // Iniciar sesion email
+            iniciar.addEventListener('click', (e) => {
+                e.preventDefault();
+                const email = correo.value;
+                const password = contraseña.value;
+
+                signInWithEmailAndPassword(auth, email , password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        console.log('Usuario ingresado:', user);
+                        // Redirigir a pacientes.html
+                        window.location.href = 'index.html';
+                    })
+                    .catch((error) => {
+                        console.error('Error durante la autenticación:', error);
+                        alert(`Error: ${error.message}`);
+                    });
+            });
+
+            // Registrar sesion email
+            registro.addEventListener('click', (e) => {
+                e.preventDefault();
+                const email = correo.value;
+                const password = contraseña.value;
+
+                createUserWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        console.log('Usuario registrado:', user);
+                        
+                    })
+                    .catch((error) => {
+                        console.error('Error durante el registro:', error);
+                        alert(`Error: ${error.message}`);
+                    });
+            });
+
+            // Google login functionality
+            google.addEventListener('click', (e) => {
+                e.preventDefault();
+                signInWithPopup(auth, provider)
+                    .then((result) => {
+                        const user = result.user;
+                        console.log('Usuario ingresado con Google:', user);
+                        // Redirigir a pacientes.html
+                        window.location.href = 'index.html';
+                    })
+                    .catch((error) => {
+                        console.error('Error durante la autenticación con Google:', error);
+                        alert(`Error: ${error.message}`);
+                    });
+            });
         });
     </script>
 </body>
